@@ -1,7 +1,7 @@
 use crate::vec3::*;
 use std::ops::*;
 
-struct Ray {
+pub struct Ray {
     a: Vec3,
     b: Vec3,
 }
@@ -15,7 +15,7 @@ impl Ray {
         self.a
     }
 
-    fn direction(&self) -> Vec3 {
+    pub fn direction(&self) -> Vec3 {
         self.b
     }
 

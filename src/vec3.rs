@@ -1,4 +1,8 @@
 use std::ops::*;
+
+pub type Colour = Vec3;
+pub type Point3 = Vec3;
+
 #[derive(Debug, PartialEq)]
 #[derive(Clone, Copy)]
 pub struct Vec3 {
@@ -9,15 +13,35 @@ impl Vec3 {
     pub fn new(e0: f64, e1: f64, e2: f64) -> Self {
         Self { e: [e0, e1, e2] }
     }
+
+    pub fn x(&self) -> f64 {
+        self.e[0]
+    }
+
+    pub fn y(&self) -> f64 {
+        self.e[1]
+    }
+
+    pub fn z(&self) -> f64 {
+        self.e[2]
+    }
+
+    fn length(&self) -> f64 {
+        (self.e[0].powi(2) + self.e[1].powi(2) + self.e[2].powi(2)).sqrt()
+    }
+}
+
+pub fn unit_vector(v: &Vec3) -> Vec3 {
+    *v / v.length()
 }
 
 impl Add for Vec3 {
     type Output = Self;
     fn add(self, rhs: Self) -> Self::Output {
         Self::new(
-            self.e[0] + rhs.e[0],
-            self.e[1] + rhs.e[1],
-            self.e[2] + rhs.e[2],
+            self.x() + rhs.x(),
+            self.y() + rhs.y(),
+            self.z() + rhs.z(),
         )
     }
 }
@@ -26,9 +50,20 @@ impl Mul<f64> for Vec3 {
     type Output = Self;
     fn mul(self, rhs: f64) -> Self::Output {
         Self::new(
-            self.e[0] * rhs,
-            self.e[1] * rhs,
-            self.e[2] * rhs,
+            self.x() * rhs,
+            self.y() * rhs,
+            self.z() * rhs,
+        )
+    }
+}
+
+impl Div<f64> for Vec3 {
+    type Output = Self;
+    fn div(self, rhs: f64) -> Self::Output {
+        Self::new(
+            self.x() / rhs,
+            self.y() / rhs,
+            self.z() / rhs,
         )
     }
 }
