@@ -9,3 +9,6 @@ Raytracer implementation in **`Rust`** based on the tutorial: [Ray Tracing in On
 
 ### render bacgkground
 ![](example_renders/my_image.02.render_bg.jpg)
+
+### hitting a sphere
+![](example_renders/my_image.03.hitting_sphere.jpg)

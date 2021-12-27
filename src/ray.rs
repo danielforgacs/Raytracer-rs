@@ -11,7 +11,7 @@ impl Ray {
         Self {a: *a, b: *b}
     }
 
-    fn origin(&self) -> Vec3 {
+    pub fn origin(&self) -> Vec3 {
         self.a
     }
 
