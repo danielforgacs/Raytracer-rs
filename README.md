@@ -12,3 +12,6 @@ Raytracer implementation in **`Rust`** based on the tutorial: [Ray Tracing in On
 
 ### hitting a sphere
 ![](example_renders/my_image.03.hitting_sphere.jpg)
+
+### added normals
+![](example_renders/my_image.04.added_normal.jpg)

@@ -13,8 +13,13 @@ fn main() {
 }
 
 fn colour(r: &Ray) -> Colour {
-    if hit_sphere(&Point3::new(0.0, 0.0, -1.0), 0.5, &r) {
-        return Colour::new(1.0, 0.0, 0.0);
+    let t = hit_sphere(&Point3::new(0.0, 0.0, -1.0), 0.5, &r);
+    if t > 0.0 {
+        let n = unit_vector(
+            &(r.point_at_parameter(t)
+            - Vec3::new(0.0, 0.0, -1.0))
+        );
+        return Vec3::new(n.x() + 1.0, n.y() + 1.0, n.z() + 1.0) * 0.5;
     }
     let unit_direction = unit_vector(&r.direction());
     let t = (unit_direction.y() + 1.0) * 0.5;
@@ -22,13 +27,17 @@ fn colour(r: &Ray) -> Colour {
     colour
 }
 
-fn hit_sphere(center: &Point3, radius: f64, r: &Ray) -> bool {
+fn hit_sphere(center: &Point3, radius: f64, r: &Ray) -> f64 {
     let oc = r.origin() - *center;
     let a = dot(&r.direction(), &r.direction());
     let b = dot(&oc, &r.direction()) * 2.0;
     let c = dot(&oc, &oc) - radius * radius;
     let discriminant = b * b - a * c * 4.0;
-    discriminant > 0.0
+    if discriminant < 0.0 {
+        -1.0
+    } else {
+        (-b - discriminant.sqrt()) / (a * 2.0)
+    }
 }
 
 fn render(image: &mut Image) {
