@@ -30,8 +30,10 @@ fn main() {
     println!("finished.");
 }
 
-fn calculate_colour(r: &Ray, world: &HittableList, mut li: u128) -> Colour {
-    // println!("--> li: {}", &li);
+fn calculate_colour(r: &Ray, world: &HittableList, loop_index: u128) -> Colour {
+    if loop_index > 1000 {
+        println!("Calculate colour loop index: {}", loop_index)
+    }
     let mut rec = HitRecord::default();
     let is_hit = world.hit(r, &0.0, std::f64::MAX, &mut rec);
     if is_hit {
@@ -40,14 +42,9 @@ fn calculate_colour(r: &Ray, world: &HittableList, mut li: u128) -> Colour {
         let ray_inner = Ray::new(&rec.p, &(target - rec.p));
         /*
         THIS PART CAN OVERFLOW!
-        Check th "li" aka loop index variable.
-        Occasionally it explodes!
+        Check theloop index.
         */
-        return calculate_colour(
-            &Ray::new(&rec.p, &(target - rec.p)),
-            &world,
-            li + 1,
-        ) * 0.5;
+        return calculate_colour(&ray_inner, &world, loop_index + 1, ) * 0.5;
     } else {
         let unit_direction = unit_vector(&r.direction());
         let t = (unit_direction.y() + 1.0) * 0.5;
