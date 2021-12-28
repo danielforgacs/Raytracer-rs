@@ -79,7 +79,7 @@ fn random_in_unit_sphere() -> Vec3 {
             - Vec3::new(0.0, 0.0, 0.0)
             * 2.0;
 
-        if p.squared_length() < 1.0 {
+        if p.length_squared() < 1.0 {
             return p;
         }
     }

@@ -29,7 +29,7 @@ impl Vec3 {
         (self.e[0].powi(2) + self.e[1].powi(2) + self.e[2].powi(2)).sqrt()
     }
 
-    pub fn squared_length(&self) -> f64 {
+    pub fn length_squared(&self) -> f64 {
         self.e[0].powi(2) + self.e[1].powi(2) + self.e[2].powi(2)
     }
 
