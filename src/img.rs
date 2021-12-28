@@ -4,7 +4,6 @@ use std::fs::File;
 pub struct Image {
     width: usize,
     aspect_ratio: f64,
-    samples: u16,
     pub pixels: Vec<Vec<[u8; 3]>>,
 }
 
@@ -13,24 +12,25 @@ impl Image {
         Self {
             width,
             aspect_ratio,
-            samples: 4,
             pixels: Vec::new(),
         }
     }
 
     pub fn write(&self) {
         let mut image_text = format!("P3\n{} {}\n255\n", self.width(), self.height());
+
         for y in &self.pixels {
             for x in y {
-                image_text.push_str(
-                    &format!("\n{} {} {}", x[0], x[1], x[2])
+                image_text.push_str(&format!("\n{} {} {}", x[0], x[1], x[2])
                 )
             };
         }
+
         let image_buf = image_text
             .chars()
             .map(|x| x as u8)
             .collect::<Vec<u8>>();
+
         let mut file = File::create("my_image.ppm").unwrap();
         file.write_all(&image_buf).unwrap();
     }
@@ -45,10 +45,6 @@ impl Image {
 
     pub fn width(&self) -> usize {
         self.width
-    }
-
-    pub fn samples(&self) -> u16 {
-        self.samples
     }
 }
 

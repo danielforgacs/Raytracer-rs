@@ -6,15 +6,17 @@ pub struct Camera {
     horizontal: Point3,
     vertical: Point3,
     origin: Vec3,
+    pub ray_p_pixel_samples: u8,
 }
 
 impl Camera {
-    pub fn new() -> Self {
+    pub fn new(rpp_samples: u8) -> Self {
         Self {
             lower_left_corner: Point3::new(-2.0, -1.0, -1.0),
             horizontal: Vec3::new(4.0, 0.0, 0.0),
             vertical: Vec3::new(0.0, 2.0, 0.0),
             origin: Point3::new(0.0, 0.0, 0.0),
+            ray_p_pixel_samples: rpp_samples,
         }
     }
 

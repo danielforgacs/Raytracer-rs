@@ -17,21 +17,23 @@ use camera::*;
 
 use rand::prelude::*;
 
-const WIDTH: usize = 800;
+const WIDTH: usize = 400;
+const RAY_PER_PIXEL_SAMPLES: u8 = 2;
+
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
-const MAX_COLOUR_CALC_RECURSION: u32 = 10_000;
+const MAX_COLOUR_CALC_RECURSION: u32 = 100;
 
 fn main() {
     let mut image = Image::new(
         WIDTH,
         ASPECT_RATIO
     );
+    let camera = Camera::new(RAY_PER_PIXEL_SAMPLES);
 
     println!("image width x height:           {} x {}", image.width(), image.height());
     println!("aspect ratio:                   {}", image.aspect_ratio());
-    println!("samples (rays / pixel):         {}", image.samples());
+    println!("samples (rays / pixel):         {}", camera.ray_p_pixel_samples);
     println!("num pixels:                     {}", image.width() * image.height());
-    let camera = Camera::new();
     println!("rendering...");
     render(&mut image, &camera);
     println!("writing image...");
@@ -96,10 +98,11 @@ fn render(image: &mut Image, cam: &Camera) {
             println!("rendering line: {:04} / {}", image.height() - y, image.height());
         }
         let mut scan_line = Vec::new();
-        for x in (0..image.width()).rev() {
-            let mut colour = Colour::new(0.0, 0.0, 0.0);
 
-            for _ in 0..image.samples() {
+        for x in (0..image.width()).rev() {
+            let mut colour = Colour::white();
+
+            for _ in 0..cam.ray_p_pixel_samples {
                 let u_rand = (rng.gen::<f64>() * 2.0) - 1.0;
                 let v_rand = (rng.gen::<f64>() * 2.0) - 1.0;
                 let u = ((x as f64) + u_rand) / image.width() as f64;
@@ -109,8 +112,8 @@ fn render(image: &mut Image, cam: &Camera) {
 
             }
 
-            colour = colour / image.samples() as f64;
-            // gamma
+            colour = colour / cam.ray_p_pixel_samples as f64;
+            // Gamma:
             colour = Vec3::new(colour.x().sqrt(), colour.y().sqrt(), colour.z().sqrt());
             let rgb = [
                 (colour.x() * 255.9) as u8,
@@ -118,7 +121,7 @@ fn render(image: &mut Image, cam: &Camera) {
                 (colour.z() * 255.9) as u8,
 
             ];
-            scan_line.push([rgb[0], rgb[1], rgb[2]]);
+            scan_line.push(rgb);
         }
         image.pixels.push(scan_line);
     }
