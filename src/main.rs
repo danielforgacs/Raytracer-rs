@@ -36,7 +36,7 @@ fn main() {
     println!("num pixels:                     {}", image.width * image.height());
     println!("rendering...");
     render(&mut image, &camera);
-    image.gamma();
+    image.gamma(0.73);
     println!("writing image...");
     image.write();
     println!("finished.");

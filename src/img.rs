@@ -16,14 +16,14 @@ impl Image {
         }
     }
 
-    pub fn gamma(&mut self) {
-        let gamma: f64 = 0.6;
+    pub fn gamma(&mut self, gamma: f64) {
+        let gamma_rev = 1.0 / gamma;
         for y in 0..self.width {
             for x in 0..self.height() {
                 self.pixels[x][y] = [
-                    self.pixels[x][y][0].powf(1.0 / gamma),
-                    self.pixels[x][y][1].powf(1.0 / gamma),
-                    self.pixels[x][y][2].powf(1.0 / gamma),
+                    self.pixels[x][y][0].powf(gamma_rev),
+                    self.pixels[x][y][1].powf(gamma_rev),
+                    self.pixels[x][y][2].powf(gamma_rev),
                 ];
             }
         }
