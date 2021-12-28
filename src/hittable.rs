@@ -1,7 +1,7 @@
 use crate::vec3::*;
 use crate::ray::*;
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct HitRecord {
     pub t: f64,
     pub p: Vec3,
