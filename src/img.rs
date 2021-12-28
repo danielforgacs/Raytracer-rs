@@ -2,8 +2,8 @@ use std::io::Write;
 use std::fs::File;
 
 pub struct Image {
-    width: usize,
-    aspect_ratio: f64,
+    pub width: usize,
+    pub aspect_ratio: f64,
     pub pixels: Vec<Vec<[u8; 3]>>,
 }
 
@@ -17,7 +17,7 @@ impl Image {
     }
 
     pub fn write(&self) {
-        let mut image_text = format!("P3\n{} {}\n255\n", self.width(), self.height());
+        let mut image_text = format!("P3\n{} {}\n255\n", self.width, self.height());
 
         for y in &self.pixels {
             for x in y {
@@ -36,27 +36,29 @@ impl Image {
     }
 
     pub fn height(&self) -> usize {
-        ((self.width() as f64) / self.aspect_ratio()) as usize
-    }
-
-    pub fn aspect_ratio(&self) -> f64 {
-        self.aspect_ratio
-    }
-
-    pub fn width(&self) -> usize {
-        self.width
+        ((self.width as f64) / self.aspect_ratio) as usize
     }
 }
 
-pub fn _generate_test_image(image: &mut Image) {
-    for y in 0..image.height() {
-        let mut row: Vec<[u8; 3]> = Vec::new();
-        for x in 0..image.width() {
-            let r = ((((x as f64) + 1.0) / (image.width() as f64)) * 255.9) as u8;
-            let g = ((((y as f64) + 1.0) / (image.width() as f64)) * 255.9) as u8;
-            let b = 3;
-            row.push([r, g, b]);
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn generate_test_image() {
+        let mut image = Image::new(24, 2.0);
+
+        for y in 0..image.height() {
+            let mut row: Vec<[u8; 3]> = Vec::new();
+            for x in 0..image.width {
+                let r = ((((x as f64) + 1.0) / (image.width as f64)) * 255.9) as u8;
+                let g = ((((y as f64) + 1.0) / (image.width as f64)) * 255.9) as u8;
+                let b = 3;
+                row.push([r, g, b]);
+            }
+            image.pixels.push(row);
         }
-        image.pixels.push(row);
+
+        image.write();
     }
 }

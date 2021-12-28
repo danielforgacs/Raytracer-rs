@@ -30,10 +30,10 @@ fn main() {
     );
     let camera = Camera::new(RAY_PER_PIXEL_SAMPLES);
 
-    println!("image width x height:           {} x {}", image.width(), image.height());
-    println!("aspect ratio:                   {}", image.aspect_ratio());
+    println!("image width x height:           {} x {}", image.width, image.height());
+    println!("aspect ratio:                   {}", image.aspect_ratio);
     println!("samples (rays / pixel):         {}", camera.ray_p_pixel_samples);
-    println!("num pixels:                     {}", image.width() * image.height());
+    println!("num pixels:                     {}", image.width * image.height());
     println!("rendering...");
     render(&mut image, &camera);
     println!("writing image...");
@@ -99,13 +99,13 @@ fn render(image: &mut Image, cam: &Camera) {
         }
         let mut scan_line = Vec::new();
 
-        for x in (0..image.width()).rev() {
+        for x in (0..image.width).rev() {
             let mut colour = Colour::white();
 
             for _ in 0..cam.ray_p_pixel_samples {
                 let u_rand = (rng.gen::<f64>() * 2.0) - 1.0;
                 let v_rand = (rng.gen::<f64>() * 2.0) - 1.0;
-                let u = ((x as f64) + u_rand) / image.width() as f64;
+                let u = ((x as f64) + u_rand) / image.width as f64;
                 let v = ((y as f64) + v_rand) / image.height() as f64;
                 let r = cam.get_ray(u, v);
                 colour = colour + calculate_colour(&r, &world, 0);
