@@ -1,5 +1,5 @@
-use crate::vec3::*;
-use crate::ray::*;
+use crate::vec3::{Vec3, Point3};
+use crate::ray::Ray;
 
 pub struct Camera {
     lower_left_corner: Vec3,

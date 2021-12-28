@@ -7,13 +7,13 @@ mod sphere;
 mod camera;
 mod material;
 
-use img::*;
-use vec3::*;
-use ray::*;
-use hittable::*;
-use hittable_list::*;
-use sphere::*;
-use camera::*;
+use img::Image;
+use vec3::{Vec3, Colour, Point3, unit_vector};
+use ray::Ray;
+use hittable::{HitRecord, Hittable};
+use hittable_list::HittableList;
+use sphere::Sphere;
+use camera::Camera;
 
 use rand::prelude::*;
 

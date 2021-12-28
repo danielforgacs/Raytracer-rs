@@ -1,4 +1,4 @@
-use std::ops::*;
+use std::ops::{Add, Sub, Mul, Div};
 
 pub type Colour = Vec3;
 pub type Point3 = Vec3;
