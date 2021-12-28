@@ -2,8 +2,8 @@ use crate::vec3::*;
 
 #[derive(Debug)]
 pub struct Ray {
-    origin: Vec3,
-    direction: Vec3,
+    pub origin: Vec3,
+    pub direction: Vec3,
 }
 
 impl Ray {
@@ -11,16 +11,8 @@ impl Ray {
         Self {origin: *a, direction: *b}
     }
 
-    pub fn origin(&self) -> Vec3 {
-        self.origin
-    }
-
-    pub fn direction(&self) -> Vec3 {
-        self.direction
-    }
-
     pub fn point_at_parameter(&self, t: f64) -> Vec3 {
-        self.origin() + self.direction() * t
+        self.origin + self.direction * t
     }
 }
 
@@ -33,8 +25,8 @@ mod test {
         let v1 = Vec3::new(1.1, 2.2, 3.3);
         let v2 = Vec3::new(11.1, 22.2, 33.3);
         let r = Ray::new(&v1, &v2);
-        assert_eq!(r.origin(), v1);
-        assert_eq!(r.direction(), v2);
+        assert_eq!(r.origin, v1);
+        assert_eq!(r.direction, v2);
     }
 
     #[test]

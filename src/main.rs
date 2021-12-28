@@ -61,7 +61,7 @@ fn calculate_colour(ray: &Ray, world: &HittableList, col_cal_depth: u32) -> Colo
         return calculate_colour(&ray_inner, &world, col_cal_depth + 1) * 0.5;
 
     } else {
-        let unit_direction = unit_vector(&ray.direction());
+        let unit_direction = unit_vector(&ray.direction);
         let t = (unit_direction.y() + 1.0) * 0.5;
         return Vec3::white() * (1.0 - t) + Vec3::new(0.12, 0.1, 0.77) * t;
     }
