@@ -67,11 +67,11 @@ mod test {
         let mut image = Image::new(24, 2.0);
 
         for y in 0..image.height() {
-            let mut row: Vec<[u8; 3]> = Vec::new();
+            let mut row: Vec<[f64; 3]> = Vec::new();
             for x in 0..image.width {
-                let r = ((((x as f64) + 1.0) / (image.width as f64)) * 255.9) as u8;
-                let g = ((((y as f64) + 1.0) / (image.width as f64)) * 255.9) as u8;
-                let b = 3;
+                let r = ((x as f64) + 1.0) / (image.width as f64);
+                let g = ((y as f64) + 1.0) / (image.width as f64);
+                let b = 0.1;
                 row.push([r, g, b]);
             }
             image.pixels.push(row);
