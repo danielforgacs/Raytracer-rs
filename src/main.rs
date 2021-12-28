@@ -32,7 +32,7 @@ fn main() {
 
 fn calculate_colour(r: &Ray, world: &HittableList, max_colour_calc: u32) -> Colour {
     if max_colour_calc == 0 {
-        println!("reached colour count depth limit.");
+        // println!("reached colour count depth limit.");
         return Colour::new(0.0, 0.0, 0.0);
 
     }
