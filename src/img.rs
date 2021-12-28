@@ -19,7 +19,6 @@ impl Image {
     }
 
     pub fn write(&self) {
-        println!("Writing image...");
         let mut image_text = format!("P3\n{} {}\n255\n", self.width(), self.height());
         for y in &self.pixels {
             for x in y {
@@ -40,7 +39,7 @@ impl Image {
         ((self.width() as f64) / self.aspect_ratio()) as usize
     }
 
-    fn aspect_ratio(&self) -> f64 {
+    pub fn aspect_ratio(&self) -> f64 {
         self.aspect_ratio
     }
 

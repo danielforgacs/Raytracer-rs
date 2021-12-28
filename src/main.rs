@@ -18,9 +18,16 @@ use rand::prelude::*;
 
 fn main() {
     let mut image = Image::new(800, 2.0 / 1.0);
+    println!("image width x height:           {} x {}", image.width(), image.height());
+    println!("aspect ratio:                   {}", image.aspect_ratio());
+    println!("samples (rays / pixel):         {}", image.samples());
+    println!("num pixels:                     {}", image.width() * image.height());
     let camera = Camera::new();
+    println!("rendering...");
     render(&mut image, &camera);
+    println!("writing image...");
     image.write();
+    println!("finished.");
 }
 
 fn calculate_colour(r: &Ray, world: &HittableList) -> Colour {
