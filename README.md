@@ -1,6 +1,7 @@
 ## Raytracer
 
-Raytracer implementation in **`Rust`** based on the tutorial: [Ray Tracing in One Weekend.](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
+A **Raytracer** implementation in **`Rust`** based on the tutorial: [Ray Tracing in One Weekend.](https://raytracing.github.io/books/RayTracingInOneWeekend.html)  
+Also used [snarkyboojum's video tutorial series](https://www.youtube.com/watch?v=_5hD0gxRzzg) for guideance.
 
 ### Test generated image
 
