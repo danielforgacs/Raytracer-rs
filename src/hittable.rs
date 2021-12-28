@@ -9,10 +9,6 @@ pub struct HitRecord {
 }
 
 impl HitRecord {
-    pub fn new(t: f64, p: Vec3, normal: Vec3) -> Self {
-        Self { t, p, normal }
-    }
-
     pub fn t(&self) -> f64 {
         self.t
     }

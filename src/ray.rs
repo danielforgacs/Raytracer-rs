@@ -1,5 +1,4 @@
 use crate::vec3::*;
-// use std::ops::*;
 
 pub struct Ray {
     a: Vec3,

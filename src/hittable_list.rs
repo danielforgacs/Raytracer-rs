@@ -1,5 +1,4 @@
 use crate::hittable::*;
-// use crate::vec3::*;
 use crate::ray::*;
 
 pub struct HittableList {
@@ -22,7 +21,6 @@ impl Hittable for HittableList {
             if object.hit(&r, &t_min, closet_so_far, &mut temp_rec) {
                 hit_anything = true;
                 closet_so_far = temp_rec.t();
-                // rec = temp_rec;
                 rec.set_t(&temp_rec.t);
                 rec.set_p(&temp_rec.p);
                 rec.set_normal(&temp_rec.normal);

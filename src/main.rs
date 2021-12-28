@@ -30,19 +30,6 @@ fn colour(r: &Ray, world: &HittableList) -> Colour {
 
 }
 
-// fn hit_sphere(center: &Point3, radius: f64, r: &Ray) -> f64 {
-//     let oc = r.origin() - *center;
-//     let a = dot(&r.direction(), &r.direction());
-//     let b = dot(&oc, &r.direction()) * 2.0;
-//     let c = dot(&oc, &oc) - radius * radius;
-//     let discriminant = b * b - a * c * 4.0;
-//     if discriminant < 0.0 {
-//         -1.0
-//     } else {
-//         (-b - discriminant.sqrt()) / (a * 2.0)
-//     }
-// }
-
 fn render(image: &mut Image) {
     let lower_left_corner = Point3::new(-2.0, -1.0, -1.0);
     let horizontal = Vec3::new(4.0, 0.0, 0.0);
