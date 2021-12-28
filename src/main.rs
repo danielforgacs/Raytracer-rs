@@ -47,7 +47,7 @@ fn calculate_colour(r: &Ray, world: &HittableList, mut li: u128) -> Colour {
             &Ray::new(&rec.p, &(target - rec.p)),
             &world,
             li + 1,
-        ) * 2.0;
+        ) * 0.5;
         // return Vec3::new(rec.normal.x() + 1.0, rec.normal.y() + 1.0, rec.normal.z() + 1.0) * 0.5;
     } else {
         let unit_direction = unit_vector(&r.direction());
@@ -58,22 +58,24 @@ fn calculate_colour(r: &Ray, world: &HittableList, mut li: u128) -> Colour {
 }
 
 fn random_in_unit_sphere() -> Vec3 {
+    // return Vec3::new(0.99999, 0.99999, 0.99999);
+    // return Vec3::new(0.5, 0.5, 0.5);
     // return Vec3::new(0.1, 0.1, 0.1);
-    return Vec3::new(0.000001, 0.000001, 0.000001);
-//     let mut rng = rand::thread_rng();
-//
-//     loop {
-//         let p = Vec3::new(
-//             rng.gen::<f64>(),
-//             rng.gen::<f64>(),
-//             rng.gen::<f64>())
-//             - Vec3::new(0.0, 0.0, 0.0)
-//             * 2.0;
-//
-//         if p.squared_length() < 1.0 {
-//             return p;
-//         }
-//     }
+    // return Vec3::new(0.000001, 0.000001, 0.000001);
+    let mut rng = rand::thread_rng();
+
+    loop {
+        let p = Vec3::new(
+            rng.gen::<f64>(),
+            rng.gen::<f64>(),
+            rng.gen::<f64>())
+            - Vec3::new(0.0, 0.0, 0.0)
+            * 2.0;
+
+        if p.squared_length() < 1.0 {
+            return p;
+        }
+    }
 }
 
 fn render(image: &mut Image, cam: &Camera) {
