@@ -21,8 +21,8 @@ impl Hittable for HittableList {
         for object in &self.list {
             if object.hit(&r, &t_min, &closet_so_far, &mut temp_rec) {
                 hit_anything = true;
-                // closet_so_far = temp_rec.t;
-                // rec = temp_rec;
+                closet_so_far = temp_rec.t;
+                rec = temp_rec;
             }
         }
         hit_anything
