@@ -95,6 +95,8 @@ fn render(image: &mut Image, cam: &Camera) {
             }
 
             colour = colour / image.samples() as f64;
+            // gamma
+            colour = Vec3::new(colour.x().sqrt(), colour.y().sqrt(), colour.z().sqrt());
             let rgb = [
                 (colour.x() * 255.9) as u8,
                 (colour.y() * 255.9) as u8,
