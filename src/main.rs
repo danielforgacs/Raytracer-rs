@@ -83,6 +83,9 @@ fn render(image: &mut Image, cam: &Camera) {
     let mut rng = rand::thread_rng();
 
     for y in (0..image.height()).rev() {
+        if (image.height() - y) % 50 == 0 {
+            println!("rendering line: {:04} / {}", image.height() - y, image.height());
+        }
         let mut scan_line = Vec::new();
         for x in (0..image.width()).rev() {
             let mut colour = Colour::new(0.0, 0.0, 0.0);
