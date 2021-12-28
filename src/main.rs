@@ -31,24 +31,23 @@ fn main() {
 }
 
 fn calculate_colour(r: &Ray, world: &HittableList, mut li: u128) -> Colour {
-    println!("--> li: {}", &li);
+    // println!("--> li: {}", &li);
     let mut rec = HitRecord::default();
     let is_hit = world.hit(r, &0.0, std::f64::MAX, &mut rec);
-    // println!("is_hit: {} - rec: {:?}", is_hit, rec);
     if is_hit {
         let rand_sphere = random_in_unit_sphere();
-        // println!("rand_sphere: {:?}", rand_sphere);
         let target = rec.p + rec.normal + rand_sphere;
-        // println!("target: {:?}", target);
         let ray_inner = Ray::new(&rec.p, &(target - rec.p));
-        // println!("ray_inner: {:?}", ray_inner);
-
+        /*
+        THIS PART CAN OVERFLOW!
+        Check th "li" aka loop index variable.
+        Occasionally it explodes!
+        */
         return calculate_colour(
             &Ray::new(&rec.p, &(target - rec.p)),
             &world,
             li + 1,
         ) * 0.5;
-        // return Vec3::new(rec.normal.x() + 1.0, rec.normal.y() + 1.0, rec.normal.z() + 1.0) * 0.5;
     } else {
         let unit_direction = unit_vector(&r.direction());
         let t = (unit_direction.y() + 1.0) * 0.5;
@@ -58,10 +57,6 @@ fn calculate_colour(r: &Ray, world: &HittableList, mut li: u128) -> Colour {
 }
 
 fn random_in_unit_sphere() -> Vec3 {
-    // return Vec3::new(0.99999, 0.99999, 0.99999);
-    // return Vec3::new(0.5, 0.5, 0.5);
-    // return Vec3::new(0.1, 0.1, 0.1);
-    // return Vec3::new(0.000001, 0.000001, 0.000001);
     let mut rng = rand::thread_rng();
 
     loop {
