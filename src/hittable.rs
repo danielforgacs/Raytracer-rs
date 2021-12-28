@@ -13,6 +13,10 @@ impl HitRecord {
         Self { t, p, normal }
     }
 
+    pub fn t(&self) -> f64 {
+        self.t
+    }
+
     pub fn set_t(&mut self, t: &f64) {
         self.t = *t;
     }
@@ -27,5 +31,5 @@ impl HitRecord {
 }
 
 pub trait Hittable {
-    fn hit(&self, r: &Ray, t_min: &f64, t_max: &f64, rec: &mut HitRecord) -> bool;
+    fn hit(&self, r: &Ray, t_min: &f64, t_max: f64, rec: &mut HitRecord) -> bool;
 }

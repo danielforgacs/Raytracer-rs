@@ -20,7 +20,7 @@ fn main() {
 
 fn colour(r: &Ray, world: &HittableList) -> Colour {
     let mut rec = HitRecord::default();
-    if world.hit(r, &0.0, &std::f64::MAX, &mut rec) {
+    if world.hit(r, &0.0, std::f64::MAX, &mut rec) {
         return Vec3::new(rec.normal.x() + 1.0, rec.normal.y() + 1.0, rec.normal.z() + 1.0) * 0.5;
     } else {
         let unit_direction = unit_vector(&r.direction());
