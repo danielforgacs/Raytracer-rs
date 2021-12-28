@@ -21,7 +21,7 @@ const WIDTH: usize = 400;
 const RAY_PER_PIXEL_SAMPLES: u8 = 2;
 
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
-const MAX_COLOUR_CALC_RECURSION: u32 = 100;
+const MAX_COLOUR_CALC_RECURSION: u32 = 4;
 
 fn main() {
     let mut image = Image::new(
@@ -36,6 +36,7 @@ fn main() {
     println!("num pixels:                     {}", image.width * image.height());
     println!("rendering...");
     render(&mut image, &camera);
+    image.gamma();
     println!("writing image...");
     image.write();
     println!("finished.");
@@ -62,7 +63,7 @@ fn calculate_colour(ray: &Ray, world: &HittableList, col_cal_depth: u32) -> Colo
     } else {
         let unit_direction = unit_vector(&ray.direction());
         let t = (unit_direction.y() + 1.0) * 0.5;
-        return Vec3::white() * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t;
+        return Vec3::white() * (1.0 - t) + Vec3::new(0.12, 0.1, 0.77) * t;
     }
 
 }
@@ -109,16 +110,14 @@ fn render(image: &mut Image, cam: &Camera) {
                 let v = ((y as f64) + v_rand) / image.height() as f64;
                 let r = cam.get_ray(u, v);
                 colour = colour + calculate_colour(&r, &world, 0);
-
             }
 
             colour = colour / cam.ray_p_pixel_samples as f64;
             // Gamma:
-            colour = Vec3::new(colour.x().sqrt(), colour.y().sqrt(), colour.z().sqrt());
             let rgb = [
-                (colour.x() * 255.9) as u8,
-                (colour.y() * 255.9) as u8,
-                (colour.z() * 255.9) as u8,
+                colour.x(),
+                colour.y(),
+                colour.z(),
 
             ];
             scan_line.push(rgb);
