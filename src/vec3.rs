@@ -32,6 +32,14 @@ impl Vec3 {
     pub fn squared_length(&self) -> f64 {
         self.e[0].powi(2) + self.e[1].powi(2) + self.e[2].powi(2)
     }
+
+    pub fn black() -> Self {
+        Self { e: [0.0, 0.0, 0.0 ]}
+    }
+
+    pub fn white() -> Self {
+        Self { e: [1.0, 1.0, 1.0 ]}
+    }
 }
 
 pub fn unit_vector(v: &Vec3) -> Vec3 {

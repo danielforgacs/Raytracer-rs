@@ -5,6 +5,7 @@ mod hittable;
 mod hittable_list;
 mod sphere;
 mod camera;
+mod material;
 
 use img::*;
 use vec3::*;
@@ -16,8 +17,16 @@ use camera::*;
 
 use rand::prelude::*;
 
+const WIDTH: usize = 800;
+const ASPECT_RATIO: f64 = 2.0 / 1.0;
+const MAX_COLOUR_CALC_RECURSION: u32 = 10_000;
+
 fn main() {
-    let mut image = Image::new(800, 2.0 / 1.0);
+    let mut image = Image::new(
+        WIDTH,
+        ASPECT_RATIO
+    );
+
     println!("image width x height:           {} x {}", image.width(), image.height());
     println!("aspect ratio:                   {}", image.aspect_ratio());
     println!("samples (rays / pixel):         {}", image.samples());
@@ -30,27 +39,28 @@ fn main() {
     println!("finished.");
 }
 
-fn calculate_colour(r: &Ray, world: &HittableList, max_colour_calc: u32) -> Colour {
-    if max_colour_calc == 0 {
-        // println!("reached colour count depth limit.");
-        return Colour::new(0.0, 0.0, 0.0);
-
+fn calculate_colour(ray: &Ray, world: &HittableList, col_cal_depth: u32) -> Colour {
+    if col_cal_depth == MAX_COLOUR_CALC_RECURSION {
+        return Colour::black();
     }
+
     let mut rec = HitRecord::default();
-    let is_hit = world.hit(r, &0.0, std::f64::MAX, &mut rec);
+    let is_hit = world.hit(ray, &0.0, std::f64::MAX, &mut rec);
+
     if is_hit {
         let rand_sphere = random_in_unit_sphere();
         let target = rec.p + rec.normal + rand_sphere;
         let ray_inner = Ray::new(&rec.p, &(target - rec.p));
         /*
         THIS PART CAN OVERFLOW!
-        Check theloop index.
+        Check the loop index.
         */
-        return calculate_colour(&ray_inner, &world, max_colour_calc - 1) * 0.5;
+        return calculate_colour(&ray_inner, &world, col_cal_depth + 1) * 0.5;
+
     } else {
-        let unit_direction = unit_vector(&r.direction());
+        let unit_direction = unit_vector(&ray.direction());
         let t = (unit_direction.y() + 1.0) * 0.5;
-        return Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.3, 0.3, 1.0) * t;
+        return Vec3::white() * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t;
     }
 
 }
@@ -79,7 +89,6 @@ fn render(image: &mut Image, cam: &Camera) {
     list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
     list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
     let world = HittableList::new(list);
-    let max_colour_calc = 10_000;
     let mut rng = rand::thread_rng();
 
     for y in (0..image.height()).rev() {
@@ -96,7 +105,7 @@ fn render(image: &mut Image, cam: &Camera) {
                 let u = ((x as f64) + u_rand) / image.width() as f64;
                 let v = ((y as f64) + v_rand) / image.height() as f64;
                 let r = cam.get_ray(u, v);
-                colour = colour + calculate_colour(&r, &world, max_colour_calc);
+                colour = colour + calculate_colour(&r, &world, 0);
 
             }
 
