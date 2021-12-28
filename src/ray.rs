@@ -2,21 +2,21 @@ use crate::vec3::*;
 
 #[derive(Debug)]
 pub struct Ray {
-    a: Vec3,
-    b: Vec3,
+    origin: Vec3,
+    direction: Vec3,
 }
 
 impl Ray {
     pub fn new(a: &Vec3, b: &Vec3) -> Self {
-        Self {a: *a, b: *b}
+        Self {origin: *a, direction: *b}
     }
 
     pub fn origin(&self) -> Vec3 {
-        self.a
+        self.origin
     }
 
     pub fn direction(&self) -> Vec3 {
-        self.b
+        self.direction
     }
 
     pub fn point_at_parameter(&self, t: f64) -> Vec3 {
