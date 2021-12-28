@@ -30,9 +30,11 @@ fn main() {
     println!("finished.");
 }
 
-fn calculate_colour(r: &Ray, world: &HittableList, loop_index: u128) -> Colour {
-    if loop_index > 1000 {
-        println!("Calculate colour loop index: {}", loop_index)
+fn calculate_colour(r: &Ray, world: &HittableList, max_colour_calc: u16) -> Colour {
+    if max_colour_calc == 0 {
+        println!("reached colour count depth limit.");
+        return Colour::new(0.0, 0.0, 0.0);
+
     }
     let mut rec = HitRecord::default();
     let is_hit = world.hit(r, &0.0, std::f64::MAX, &mut rec);
@@ -44,7 +46,7 @@ fn calculate_colour(r: &Ray, world: &HittableList, loop_index: u128) -> Colour {
         THIS PART CAN OVERFLOW!
         Check theloop index.
         */
-        return calculate_colour(&ray_inner, &world, loop_index + 1, ) * 0.5;
+        return calculate_colour(&ray_inner, &world, max_colour_calc - 1) * 0.5;
     } else {
         let unit_direction = unit_vector(&r.direction());
         let t = (unit_direction.y() + 1.0) * 0.5;
@@ -77,6 +79,7 @@ fn render(image: &mut Image, cam: &Camera) {
     list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
     list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
     let world = HittableList::new(list);
+    let max_colour_calc = 50_u16;
     let mut rng = rand::thread_rng();
 
     for y in (0..image.height()).rev() {
@@ -90,7 +93,7 @@ fn render(image: &mut Image, cam: &Camera) {
                 let u = ((x as f64) + u_rand) / image.width() as f64;
                 let v = ((y as f64) + v_rand) / image.height() as f64;
                 let r = cam.get_ray(u, v);
-                colour = colour + calculate_colour(&r, &world, 0);
+                colour = colour + calculate_colour(&r, &world, max_colour_calc);
 
             }
 
