@@ -12,6 +12,18 @@ impl HitRecord {
     pub fn new(t: f64, p: Vec3, normal: Vec3) -> Self {
         Self { t, p, normal }
     }
+
+    pub fn set_t(&mut self, t: &f64) {
+        self.t = *t;
+    }
+
+    pub fn set_p(&mut self, p: &Vec3) {
+        self.p = *p;
+    }
+
+    pub fn set_normal(&mut self, normal: &Vec3) {
+        self.normal = *normal;
+    }
 }
 
 pub trait Hittable {
