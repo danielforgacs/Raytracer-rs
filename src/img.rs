@@ -4,6 +4,7 @@ use std::fs::File;
 pub struct Image {
     width: usize,
     aspect_ratio: f64,
+    samples: u16,
     pub pixels: Vec<Vec<[u8; 3]>>,
 }
 
@@ -12,6 +13,7 @@ impl Image {
         Self {
             width,
             aspect_ratio,
+            samples: 2,
             pixels: Vec::new(),
         }
     }
@@ -44,6 +46,10 @@ impl Image {
 
     pub fn width(&self) -> usize {
         self.width
+    }
+
+    pub fn samples(&self) -> u16 {
+        self.samples
     }
 }
 

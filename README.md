@@ -19,3 +19,9 @@ Also used [snarkyboojum's video tutorial series](https://www.youtube.com/watch?v
 
 ### Hittable trait & multiple objects
 ![](example_renders/my_image.05.hittable_trait.jpg)
+
+### Aliased image without randomised rays
+![](example_renders/my_image.06a.without_random_rays.jpg)
+
+### Antialiasing with randomised rays
+![](example_renders/my_image.06b.with_random_rays.jpg)
