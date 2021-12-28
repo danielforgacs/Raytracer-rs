@@ -30,7 +30,7 @@ fn main() {
     println!("finished.");
 }
 
-fn calculate_colour(r: &Ray, world: &HittableList, max_colour_calc: u16) -> Colour {
+fn calculate_colour(r: &Ray, world: &HittableList, max_colour_calc: u32) -> Colour {
     if max_colour_calc == 0 {
         println!("reached colour count depth limit.");
         return Colour::new(0.0, 0.0, 0.0);
@@ -74,12 +74,12 @@ fn random_in_unit_sphere() -> Vec3 {
 
 fn render(image: &mut Image, cam: &Camera) {
     let mut list: Vec<Box<dyn Hittable>> = Vec::new();
-    // list.push(Box::new(Sphere::new(Point3::new(-0.2, 0.2, -0.4), 0.1)));
-    // list.push(Box::new(Sphere::new(Point3::new(-0.5, 0.2, -0.6), 0.1)));
+    list.push(Box::new(Sphere::new(Point3::new(-0.2, 0.2, -0.4), 0.1)));
+    list.push(Box::new(Sphere::new(Point3::new(-0.5, 0.2, -0.6), 0.1)));
     list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
     list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
     let world = HittableList::new(list);
-    let max_colour_calc = 50_u16;
+    let max_colour_calc = 10_000;
     let mut rng = rand::thread_rng();
 
     for y in (0..image.height()).rev() {

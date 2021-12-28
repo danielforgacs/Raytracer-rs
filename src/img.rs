@@ -13,7 +13,7 @@ impl Image {
         Self {
             width,
             aspect_ratio,
-            samples: 8,
+            samples: 32,
             pixels: Vec::new(),
         }
     }
