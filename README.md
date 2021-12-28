@@ -25,3 +25,6 @@ Also used [snarkyboojum's video tutorial series](https://www.youtube.com/watch?v
 
 ### Antialiasing with randomised rays
 ![](example_renders/my_image.06b.with_random_rays.jpg)
+
+### A simple diffuse material
+![](example_renders/my_image.08.simple_diffuse_material.jpg)
