@@ -15,3 +15,6 @@ Raytracer implementation in **`Rust`** based on the tutorial: [Ray Tracing in On
 
 ### added normals
 ![](example_renders/my_image.04.added_normal.jpg)
+
+### Hittable trait & multiple objects
+![](example_renders/my_image.05.hittable_trait.jpg)
