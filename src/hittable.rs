@@ -9,10 +9,6 @@ pub struct HitRecord {
 }
 
 impl HitRecord {
-    pub fn t(&self) -> f64 {
-        self.t
-    }
-
     pub fn set_t(&mut self, t: &f64) {
         self.t = *t;
     }
