@@ -35,11 +35,6 @@ impl Hittable for Sphere {
                         material: self.material,
                     }
                 );
-                // rec.t = temp;
-                // rec.p = r.point_at_parameter(rec.t);
-                // rec.normal = (rec.p - self.center) / self.radius;
-                // // rec.material();
-                // return true;
             }
             let temp = (-b + discriminant.sqrt()) / a;
             if (temp < t_max) && (temp > *t_min) {
@@ -51,11 +46,6 @@ impl Hittable for Sphere {
                         material: self.material,
                     }
                 );
-                // rec.t = temp;
-                // rec.p = r.point_at_parameter(rec.t);
-                // rec.normal = (rec.p - self.center) / self.radius;
-                // // rec.material();
-                // return true;
             }
         }
 

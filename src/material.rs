@@ -26,15 +26,8 @@ pub fn scatter(
     match material {
         &Material::Lambert { albedo} => {
             let target = rec.p + rec.normal + random_in_unit_sphere();
-            /*
-            WHICH WAY IS BETTER FOT THE NEXT TWO LINES?
-            */
             *attenuation = albedo;
             *scattered = Ray::new(&rec.p, &(target - rec.p));
-            // attenuation = &mut albedo;
-            // scattered = &mut Ray::new(&rec.p, &(target - rec.p));
-            // println!("hit::mat::lamb: {:?}", scattered);
-            // println!("hit::mat::lamb: {:?}", attenuation);
             return true;
         }
         &Material::Metal { albedo} => {
@@ -50,6 +43,5 @@ pub fn scatter(
 }
 
 pub fn reflect(v: &Vec3, n: &Vec3) -> Vec3 {
-    // println!("refl: {:?}", *v - (*n * dot(v, n) * 2.0));
     *v - (*n * dot(v, n) * 2.0)
 }
