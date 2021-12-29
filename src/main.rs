@@ -90,11 +90,12 @@ fn render(image: &mut Image, cam: &Camera) {
     list.push(Box::new(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, Material::Metal { albedo: Vec3::new(0.8, 0.8, 0.8), fuzz: 0.0})));
     let world = HittableList::new(list);
     let mut rng = rand::thread_rng();
+    let notice_divisions = match (image.height() as f64 / 16.0) as usize {
+        0 => 1,
+        x => x
+    };
 
     for y in (0..image.height()).rev() {
-        if (image.height() - y) % 50 == 0 {
-            println!("rendering line: {:04} / {}", image.height() - y, image.height());
-        }
         let mut scan_line = Vec::new();
 
         for x in (0..image.width).rev() {
@@ -114,5 +115,10 @@ fn render(image: &mut Image, cam: &Camera) {
             scan_line.push(rgb);
         }
         image.pixels.push(scan_line);
+
+        if (image.height() - y) % notice_divisions == 0 {
+            let progress = 100.0 - ((y as f64 /  image.height() as f64) * 100.0);
+            println!("> {:>8.1}%",  progress);
+        }
     }
 }
