@@ -52,8 +52,8 @@ fn calculate_colour(ray: &Ray, world: &HittableList, col_cal_depth: u32) -> Colo
 
     match world.hit(ray, &0.001, std::f64::MAX) {
         Some(rec) => {
-            let scattered = Ray::new(&Vec3::new(0.0, 0.0, 0.0), &Vec3::new(0.0, 0.0, 0.0));
-            let attenuation = Vec3::new(0.0, 0.0, 0.0);
+            let mut scattered = Ray::new(&Vec3::new(0.0, 0.0, 0.0), &Vec3::new(0.0, 0.0, 0.0));
+            let mut attenuation = Vec3::new(0.0, 0.0, 0.0);
             if scatter(&rec.material, ray, &rec, &mut attenuation, &mut scattered) {
                 return attenuation + calculate_colour(&ray, &world, col_cal_depth + 1);
             } else {

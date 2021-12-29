@@ -37,6 +37,10 @@ impl Vec3 {
         Self { e: [0.0, 0.0, 0.0 ]}
     }
 
+    pub fn grey() -> Self {
+        Self { e: [0.5, 0.5, 0.5 ]}
+    }
+
     pub fn white() -> Self {
         Self { e: [1.0, 1.0, 1.0 ]}
     }

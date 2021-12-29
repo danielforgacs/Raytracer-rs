@@ -3,7 +3,7 @@ use crate::ray::Ray;
 use crate::hittable::HitRecord;
 use crate::random_in_unit_sphere;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub enum Material {
     Lambert { albedo: Vec3 },
     Metal {},
@@ -22,18 +22,18 @@ pub fn scatter(
     rec: &HitRecord,
     attenuation: &mut Vec3,
     scattered: &mut Ray
-) -> bool
-{
+) -> bool {
     match material {
         &Material::Lambert { albedo} => {
             let target = rec.p + rec.normal + random_in_unit_sphere();
             /*
             WHICH WAY IS BETTER FOT THE NEXT TWO LINES?
             */
-            // *attenuation = albedo;
-            // *scattered = Ray::new(&rec.p, &(target - rec.p));
-            attenuation = &mut albedo;
-            scattered = &mut Ray::new(&rec.p, &(target - rec.p));
+            *attenuation = albedo;
+            *scattered = Ray::new(&rec.p, &(target - rec.p));
+            // attenuation = &mut albedo;
+            // scattered = &mut Ray::new(&rec.p, &(target - rec.p));
+            return true;
         }
         &Material::Metal {} => {}
         &Material::Dielectric {} => {}
