@@ -35,3 +35,6 @@ Also used [snarkyboojum's video tutorial series](https://www.youtube.com/watch?v
 - **Pentium Silver N5000, 4 Gb => ~ 20.0 secs**
 
 ![](example_renders/my_image.09.diff_metal_refl.jpg)
+
+### Added fuzziness to metal
+![](example_renders/my_image.09b.fuzziness.jpg)
