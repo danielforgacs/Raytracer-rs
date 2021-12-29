@@ -72,8 +72,8 @@ fn random_in_unit_sphere() -> Vec3 {
             rng.gen::<f64>(),
             rng.gen::<f64>(),
             rng.gen::<f64>())
-            - Vec3::new(0.0, 0.0, 0.0)
-            * 2.0;
+            * 2.0
+            - Vec3::new(1.0, 1.0, 1.0);
 
         if p.length_squared() < 1.0 {
             return p;
