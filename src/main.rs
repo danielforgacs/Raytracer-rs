@@ -14,7 +14,7 @@ use hittable::{HitRecord, Hittable};
 use hittable_list::HittableList;
 use sphere::Sphere;
 use camera::Camera;
-use material::Material;
+use material::{Material, scatter};
 
 use rand::prelude::*;
 
@@ -48,25 +48,31 @@ fn calculate_colour(ray: &Ray, world: &HittableList, col_cal_depth: u32) -> Colo
         return Colour::black();
     }
 
-    let mut rec = HitRecord::default();
-    let is_hit = world.hit(ray, &0.0, std::f64::MAX, &mut rec);
+    // let mut rec = HitRecord::default();
 
-    if is_hit {
-        let rand_sphere = random_in_unit_sphere();
-        let target = rec.p + rec.normal + rand_sphere;
-        let ray_inner = Ray::new(&rec.p, &(target - rec.p));
-        /*
-        THIS PART CAN OVERFLOW!
-        Check the loop index.
-        */
-        return calculate_colour(&ray_inner, &world, col_cal_depth + 1) * 0.5;
-
-    } else {
-        let unit_direction = unit_vector(&ray.direction);
-        let t = (unit_direction.y() + 1.0) * 0.5;
-        return Vec3::white() * (1.0 - t) + Vec3::new(0.12, 0.1, 0.77) * t;
+    match world.hit(ray, &0.001, std::f64::MAX) {
+        Some(rec) => {
+            let scattered = Ray::new(&Vec3::new(0.0, 0.0, 0.0), &Vec3::new(0.0, 0.0, 0.0));
+            let attenuation = Vec3::new(0.0, 0.0, 0.0);
+            if scatter(&rec.material, ray, &rec, &mut attenuation, &mut scattered) {
+                return attenuation + calculate_colour(&ray, &world, col_cal_depth + 1);
+            } else {
+                return Vec3::black();
+            }
+            // let target = rec.p + rec.normal + random_in_unit_sphere();
+            // let ray_inner = Ray::new(&rec.p, &(target - rec.p));
+            /*
+            THIS PART CAN OVERFLOW!
+            Check the loop index: col_cal_depth.
+            */
+            // return calculate_colour(&ray_inner, &world, col_cal_depth + 1) * 0.5;k
+        }
+        None => {
+            let unit_direction = unit_vector(&ray.direction);
+            let t = (unit_direction.y() + 1.0) * 0.5;
+            return Vec3::white() * (1.0 - t) + Vec3::new(0.12, 0.1, 0.77) * t;
+        }
     }
-
 }
 
 fn random_in_unit_sphere() -> Vec3 {
@@ -88,10 +94,10 @@ fn random_in_unit_sphere() -> Vec3 {
 
 fn render(image: &mut Image, cam: &Camera) {
     let mut list: Vec<Box<dyn Hittable>> = Vec::new();
-    list.push(Box::new(Sphere::new(Point3::new(-0.2, 0.2, -0.4), 0.1)));
-    list.push(Box::new(Sphere::new(Point3::new(-0.5, 0.2, -0.6), 0.1)));
-    list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5)));
-    list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)));
+    list.push(Box::new(Sphere::new(Point3::new(-0.2, 0.2, -0.4), 0.1, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
+    list.push(Box::new(Sphere::new(Point3::new(-0.5, 0.2, -0.6), 0.1, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
+    list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
+    list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
     let world = HittableList::new(list);
     let mut rng = rand::thread_rng();
 
