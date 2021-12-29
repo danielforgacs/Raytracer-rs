@@ -94,10 +94,10 @@ fn random_in_unit_sphere() -> Vec3 {
 
 fn render(image: &mut Image, cam: &Camera) {
     let mut list: Vec<Box<dyn Hittable>> = Vec::new();
-    list.push(Box::new(Sphere::new(Point3::new(-0.2, 0.2, -0.4), 0.1, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
-    list.push(Box::new(Sphere::new(Point3::new(-0.5, 0.2, -0.6), 0.1, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
-    list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
-    list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, Material::Lambert { albedo: Vec3::new(0.5, 0.5, 0.5)})));
+    list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, Material::Lambert { albedo: Vec3::new(0.8, 0.3, 0.3)})));
+    list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, Material::Lambert { albedo: Vec3::new(0.8, 0.3, 0.0)})));
+    list.push(Box::new(Sphere::new(Point3::new(1.0, 0.0, -1.0), 0.5, Material::Metal { albedo: Vec3::new(0.8, 0.6, 0.2)})));
+    list.push(Box::new(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, Material::Metal { albedo: Vec3::new(0.8, 0.6, 0.8)})));
     let world = HittableList::new(list);
     let mut rng = rand::thread_rng();
 
