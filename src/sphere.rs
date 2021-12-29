@@ -1,20 +1,22 @@
 use crate::vec3::{Vec3, dot};
 use crate::ray::Ray;
 use crate::hittable::{HitRecord, Hittable};
+use crate::material::Material;
 
 pub struct Sphere {
     center: Vec3,
     radius: f64,
+    material: Material,
 }
 
 impl Sphere {
-    pub fn new(center: Vec3, radius: f64) -> Self {
-        Self { center, radius }
+    pub fn new(center: Vec3, radius: f64, material: Material) -> Self {
+        Self { center, radius, material }
     }
 }
 
 impl Hittable for Sphere {
-    fn hit(&self, r: &Ray, t_min: &f64, t_max: f64, rec: &mut HitRecord) -> bool {
+    fn hit(&self, r: &Ray, t_min: &f64, t_max: f64) -> Option<HitRecord> {
         let oc = r.origin - self.center;
         let a = dot(&r.direction, &r.direction);
         let b = dot(&oc, &r.direction);
@@ -25,20 +27,38 @@ impl Hittable for Sphere {
             let temp = (-b - discriminant.sqrt()) / a;
 
             if (temp < t_max) && (temp > *t_min) {
-                rec.t = temp;
-                rec.p = r.point_at_parameter(rec.t);
-                rec.normal = (rec.p - self.center) / self.radius;
-                return true;
+                return Some(
+                    HitRecord {
+                        t: temp,
+                        p: r.point_at_parameter(temp),
+                        normal: (r.point_at_parameter(temp) - self.center) / self.radius,
+                        material: self.material,
+                    }
+                );
+                // rec.t = temp;
+                // rec.p = r.point_at_parameter(rec.t);
+                // rec.normal = (rec.p - self.center) / self.radius;
+                // // rec.material();
+                // return true;
             }
             let temp = (-b + discriminant.sqrt()) / a;
             if (temp < t_max) && (temp > *t_min) {
-                rec.t = temp;
-                rec.p = r.point_at_parameter(rec.t);
-                rec.normal = (rec.p - self.center) / self.radius;
-                return true;
+                return Some(
+                    HitRecord {
+                        t: temp,
+                        p: r.point_at_parameter(temp),
+                        normal: (r.point_at_parameter(temp) - self.center) / self.radius,
+                        material: self.material,
+                    }
+                );
+                // rec.t = temp;
+                // rec.p = r.point_at_parameter(rec.t);
+                // rec.normal = (rec.p - self.center) / self.radius;
+                // // rec.material();
+                // return true;
             }
         }
 
-        false
+        None
     }
 }
