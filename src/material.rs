@@ -33,6 +33,8 @@ pub fn scatter(
             *scattered = Ray::new(&rec.p, &(target - rec.p));
             // attenuation = &mut albedo;
             // scattered = &mut Ray::new(&rec.p, &(target - rec.p));
+            // println!("hit::mat::lamb: {:?}", scattered);
+            // println!("hit::mat::lamb: {:?}", attenuation);
             return true;
         }
         &Material::Metal { albedo} => {

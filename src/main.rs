@@ -18,11 +18,11 @@ use material::{Material, scatter};
 
 use rand::prelude::*;
 
-const WIDTH: usize = 400;
-const RAY_PER_PIXEL_SAMPLES: u8 = 8;
+const WIDTH: usize = 200;
+const RAY_PER_PIXEL_SAMPLES: u8 = 4;
 
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
-const MAX_COLOUR_CALC_RECURSION: u32 = 16;
+const MAX_COLOUR_CALC_RECURSION: u32 = 100;
 
 fn main() {
     let mut image = Image::new(
@@ -43,36 +43,60 @@ fn main() {
     println!("finished.");
 }
 
-fn calculate_colour(ray: &Ray, world: &HittableList, col_cal_depth: u32) -> Colour {
+fn calculate_colour(r: &Ray, world: &HittableList, col_cal_depth: u32) -> Vec3 {
     if col_cal_depth == MAX_COLOUR_CALC_RECURSION {
         return Colour::black();
     }
 
-    // let mut rec = HitRecord::default();
+    if let Some(rec) = world.hit(&r, &0.001, std::f64::MAX) {
+        let mut scattered = Ray::new(&Vec3::default(), &Vec3::default());
+        let mut attentuation = Vec3::default();
 
-    match world.hit(ray, &0.001, std::f64::MAX) {
-        Some(rec) => {
-            let mut scattered = Ray::new(&Vec3::new(0.0, 0.0, 0.0), &Vec3::new(0.0, 0.0, 0.0));
-            let mut attenuation = Vec3::new(0.0, 0.0, 0.0);
-            if scatter(&rec.material, ray, &rec, &mut attenuation, &mut scattered) {
-                return attenuation + calculate_colour(&ray, &world, col_cal_depth + 1);
-            } else {
-                return Vec3::black();
-            }
-            // let target = rec.p + rec.normal + random_in_unit_sphere();
-            // let ray_inner = Ray::new(&rec.p, &(target - rec.p));
-            /*
-            THIS PART CAN OVERFLOW!
-            Check the loop index: col_cal_depth.
-            */
-            // return calculate_colour(&ray_inner, &world, col_cal_depth + 1) * 0.5;k
+        if scatter(&rec.material, r, &rec, &mut attentuation, &mut scattered) {
+            return attentuation * calculate_colour(&scattered, world, col_cal_depth + 1);
+        } else {
+            return Vec3::new(0.0, 0.0, 0.0);
         }
-        None => {
-            let unit_direction = unit_vector(&ray.direction);
-            let t = (unit_direction.y() + 1.0) * 0.5;
-            return Vec3::white() * (1.0 - t) + Vec3::new(0.12, 0.1, 0.77) * t;
-        }
+    } else {
+        let unit_direction = unit_vector(&r.direction);
+        let t = 0.5 * (unit_direction.y() + 1.0);
+
+        Vec3::new(1.0, 1.0, 1.0) * (1.0 - t) + Vec3::new(0.5, 0.7, 1.0) * t
     }
+
+
+//     // let mut rec = HitRecord::default();
+//
+//     match world.hit(&ray, &0.001, std::f64::MAX) {
+//         Some(rec) => {
+//             let mut scattered = Ray::new(&Vec3::new(0.0, 0.0, 0.0), &Vec3::new(1.0, 0.0, 0.0));
+//             // println!("calc col::scatt: {:?}", scattered);
+//             // let mut attenuation = Vec3::new(0.2, 0.2, 0.2);
+//             let mut attenuation = Colour::new(0.2, 0.2, 0.2);
+//             if scatter(&rec.material, ray, &rec, &mut attenuation, &mut scattered) {
+//                 // let xyz: () = attenuation;
+//                 // let xyz: () = calculate_colour(&ray, &world, col_cal_depth + 1);
+//                 // return attenuation * calculate_colour(&ray, &world, col_cal_depth + 1);
+//                 return calculate_colour(&ray, &world, col_cal_depth + 1) * 0.2;
+//                 // return calculate_colour(&ray, &world, col_cal_depth + 1);
+//                 // return attenuation;
+//             } else {
+//                 return Vec3::black();
+//             }
+//             // let target = rec.p + rec.normal + random_in_unit_sphere();
+//             // let ray_inner = Ray::new(&rec.p, &(target - rec.p));
+//             /*
+//             THIS PART CAN OVERFLOW!
+//             Check the loop index: col_cal_depth.
+//             */
+//             // return calculate_colour(&ray_inner, &world, col_cal_depth + 1) * 0.5;k
+//         }
+//         None => {
+//             let unit_direction = unit_vector(&ray.direction);
+//             let t = (unit_direction.y() + 1.0) * 0.5;
+//             return Vec3::white() * (1.0 - t) + Vec3::new(0.12, 0.1, 0.77) * t;
+//         }
+//     }
 }
 
 fn random_in_unit_sphere() -> Vec3 {
