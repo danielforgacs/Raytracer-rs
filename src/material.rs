@@ -49,3 +49,15 @@ pub fn scatter(
 pub fn reflect(v: &Vec3, n: &Vec3) -> Vec3 {
     *v - (*n * dot(v, n) * 2.0)
 }
+
+pub fn refract(v: &Vec3, n: &Vec3, ni_over_ft: f64, refracted: &mut Vec3) -> bool {
+    let uv = unit_vector(v);
+    let dt = dot(&uv, n);
+    let discriminant = 1.0 - ni_over_ft * ni_over_ft * (1.0 - dt * dt);
+    if discriminant > 0.0 {
+        *refracted = ((uv - *n * dt) * ni_over_ft) - *n * discriminant.sqrt();
+        true
+    } else {
+        false
+    }
+}
