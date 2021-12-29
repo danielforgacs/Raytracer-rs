@@ -7,7 +7,7 @@ use crate::random_in_unit_sphere;
 pub enum Material {
     Lambert { albedo: Vec3 },
     Metal { albedo: Vec3, fuzz: f64 },
-    Dielectric {},
+    Dielectric { refr_idx: f64 },
 }
 
 impl Default for Material {
@@ -40,10 +40,33 @@ pub fn scatter(
             *attenuation = albedo;
             return dot(&scattered.direction, &rec.normal) > 0.0;
         }
-        &Material::Dielectric {} => {
-            return false;
+        &Material::Dielectric { refr_idx} => {
+            let reflected = reflect(&ray_in.direction, &rec.normal);
+            // ??? let attenuation = Vec3::new(1.0, 1.0, 1.0);
+            *attenuation = Vec3::new(1.0, 1.0, 0.0);
+            let mut out_normal = Vec3::default();
+            let mut refracted = Vec3::default();
+            let mut ni_over_nt = 0.0;
+
+            if dot(&ray_in.direction, &rec.normal) > 0.0 {
+                out_normal = rec.normal * -1.0;
+                ni_over_nt = refr_idx;
+            } else {
+                out_normal = rec.normal;
+                ni_over_nt = 1.0 / refr_idx;
+            }
+
+            if refract(&ray_in.direction, &out_normal, ni_over_nt, &mut refracted) {
+                *scattered = Ray::new(rec.p, refracted);
+                return true;
+            } else {
+                *scattered = Ray::new(rec.p, reflected);
+                return false;
+
+            }
         }
     }
+    // return false;
 }
 
 pub fn reflect(v: &Vec3, n: &Vec3) -> Vec3 {
