@@ -1,11 +1,13 @@
 use crate::vec3::Vec3;
 use crate::ray::Ray;
+use crate::material::Material;
 
 #[derive(Default, Debug)]
 pub struct HitRecord {
     pub t: f64,
     pub p: Vec3,
     pub normal: Vec3,
+    pub material: Material,
 }
 
 impl HitRecord {
