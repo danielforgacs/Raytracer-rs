@@ -10,7 +10,7 @@ mod material;
 use img::Image;
 use vec3::{Vec3, Colour, Point3, unit_vector};
 use ray::Ray;
-use hittable::{HitRecord, Hittable};
+use hittable::Hittable;
 use hittable_list::HittableList;
 use sphere::Sphere;
 use camera::Camera;
@@ -53,9 +53,9 @@ fn calculate_colour(r: &Ray, world: &HittableList, col_cal_depth: u32) -> Vec3 {
         let mut attentuation = Vec3::default();
 
         if scatter(&rec.material, r, &rec, &mut attentuation, &mut scattered) {
-            let cc = calculate_colour(&scattered, world, col_cal_depth + 1);
-            let att = attentuation;
-            return att * cc;
+            // let cc = calculate_colour(&scattered, world, col_cal_depth + 1);
+            // let att = attentuation;
+            return attentuation * calculate_colour(&scattered, world, col_cal_depth + 1);
         } else {
             return Vec3::new(0.0, 0.0, 0.0);
         }
