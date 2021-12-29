@@ -76,6 +76,17 @@ impl Sub for Vec3 {
     }
 }
 
+impl Mul for Vec3 {
+    type Output = Self;
+    fn mul(self, rhs: Self) -> Self::Output {
+        Self::new(
+            self.x() * rhs.x(),
+            self.y() * rhs.y(),
+            self.z() * rhs.z(),
+        )
+    }
+}
+
 impl Mul<f64> for Vec3 {
     type Output = Self;
     fn mul(self, rhs: f64) -> Self::Output {

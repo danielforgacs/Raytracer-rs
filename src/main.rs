@@ -53,7 +53,9 @@ fn calculate_colour(r: &Ray, world: &HittableList, col_cal_depth: u32) -> Vec3 {
         let mut attentuation = Vec3::default();
 
         if scatter(&rec.material, r, &rec, &mut attentuation, &mut scattered) {
-            return attentuation * calculate_colour(&scattered, world, col_cal_depth + 1);
+            let cc = calculate_colour(&scattered, world, col_cal_depth + 1);
+            let att = attentuation;
+            return att * cc;
         } else {
             return Vec3::new(0.0, 0.0, 0.0);
         }
