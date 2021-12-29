@@ -48,8 +48,8 @@ fn calculate_colour(r: &Ray, world: &HittableList, col_cal_depth: u32) -> Colour
         return Colour::black();
     }
 
-    if let Some(rec) = world.hit(&r, &0.001, std::f64::MAX) {
-        let mut scattered = Ray::new(&Vec3::default(), &Vec3::default());
+    if let Some(rec) = world.hit(&r, 0.001, std::f64::MAX) {
+        let mut scattered = Ray::new(Vec3::default(), Vec3::default());
         let mut attentuation = Vec3::default();
 
         if scatter(&rec.material, r, &rec, &mut attentuation, &mut scattered) {

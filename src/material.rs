@@ -27,12 +27,12 @@ pub fn scatter(
         &Material::Lambert { albedo} => {
             let target = rec.p + rec.normal + random_in_unit_sphere();
             *attenuation = albedo;
-            *scattered = Ray::new(&rec.p, &(target - rec.p));
+            *scattered = Ray::new(rec.p, target - rec.p);
             return true;
         }
         &Material::Metal { albedo} => {
             let reflected = reflect(&unit_vector(&ray_in.direction), &rec.normal);
-            *scattered = Ray::new(&rec.p, &reflected);
+            *scattered = Ray::new(rec.p, reflected);
             *attenuation = albedo;
             return dot(&scattered.direction, &rec.normal) > 0.0;
         }

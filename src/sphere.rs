@@ -16,7 +16,7 @@ impl Sphere {
 }
 
 impl Hittable for Sphere {
-    fn hit(&self, r: &Ray, t_min: &f64, t_max: f64) -> Option<HitRecord> {
+    fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
         let oc = r.origin - self.center;
         let a = dot(&r.direction, &r.direction);
         let b = dot(&oc, &r.direction);
@@ -26,7 +26,7 @@ impl Hittable for Sphere {
         if discriminant > 0.0 {
             let temp = (-b - discriminant.sqrt()) / a;
 
-            if (temp < t_max) && (temp > *t_min) {
+            if temp < t_max && temp > t_min {
                 return Some(
                     HitRecord {
                         t: temp,
@@ -37,7 +37,7 @@ impl Hittable for Sphere {
                 );
             }
             let temp = (-b + discriminant.sqrt()) / a;
-            if (temp < t_max) && (temp > *t_min) {
+            if temp < t_max && temp > t_min {
                 return Some(
                     HitRecord {
                         t: temp,
