@@ -6,7 +6,7 @@ use crate::random_in_unit_sphere;
 #[derive(Debug, Clone, Copy)]
 pub enum Material {
     Lambert { albedo: Vec3 },
-    Metal { albedo: Vec3 },
+    Metal { albedo: Vec3, fuzz: f64 },
     Dielectric {},
 }
 
@@ -30,9 +30,13 @@ pub fn scatter(
             *scattered = Ray::new(rec.p, target - rec.p);
             return true;
         }
-        &Material::Metal { albedo} => {
+        &Material::Metal { albedo, fuzz} => {
             let reflected = reflect(&unit_vector(&ray_in.direction), &rec.normal);
-            *scattered = Ray::new(rec.p, reflected);
+            if fuzz == 0.0 {
+                *scattered = Ray::new(rec.p, reflected);
+            } else {
+                *scattered = Ray::new(rec.p, reflected + random_in_unit_sphere() * fuzz);
+            }
             *attenuation = albedo;
             return dot(&scattered.direction, &rec.normal) > 0.0;
         }
