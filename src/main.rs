@@ -18,8 +18,8 @@ use material::{Material, scatter};
 
 use rand::prelude::*;
 
-const WIDTH: usize = 400;
-const RAY_PER_PIXEL_SAMPLES: u8 = 4;
+const WIDTH: usize = 600;
+const RAY_PER_PIXEL_SAMPLES: u8 = 8;
 
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
 const MAX_COLOUR_CALC_RECURSION: u32 = 256;
@@ -96,16 +96,21 @@ fn render(image: &mut Image, cam: &Camera) {
         )));
         // LEFT SPHERE:
         list.push(Box::new(Sphere::new(Point3::new(1.0, 0.0, -1.0), 0.5,
-            Material::Dielectric { refr_idx: 1.5 }
+            // Material::Metal { albedo: Vec3::new(0.8, 0.8, 0.8), fuzz: 0.33}
+            Material::Metal { albedo: Vec3::new(0.8, 0.8, 0.8), fuzz: 0.33}
         )));
         // RIGHT SPHERE:
         list.push(Box::new(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5,
             Material::Metal { albedo: Vec3::new(0.8, 0.8, 0.8), fuzz: 0.0}
         )));
-        // // TOP RIGHT CLOSER EXTRA SPHERE:
-        // list.push(Box::new(Sphere::new(Point3::new(-0.23, 0.12, -0.5), 0.27,
-        //     Material::Dielectric { refr_idx: 1.5}
-        // )));
+        // TOP RIGHT CLOSER EXTRA SPHERE:
+        list.push(Box::new(Sphere::new(Point3::new(-0.23, 0.12, -0.31), 0.16,
+        Material::Dielectric { refr_idx: 1.87}
+        )));
+        // TOP LEFT CLOSER EXTRA SPHERE:
+        list.push(Box::new(Sphere::new(Point3::new(0.23, 0.12, -0.31), 0.16,
+        Material::Dielectric { refr_idx: 0.87}
+        )));
     }
     let world = HittableList::new(list);
     let mut rng = rand::thread_rng();
