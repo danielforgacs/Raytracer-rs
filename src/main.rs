@@ -18,11 +18,11 @@ use material::{Material, scatter};
 
 use rand::prelude::*;
 
-const WIDTH: usize = 600;
-const RAY_PER_PIXEL_SAMPLES: u8 = 8;
+const WIDTH: usize = 400;
+const RAY_PER_PIXEL_SAMPLES: u8 = 4;
 
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
-const MAX_COLOUR_CALC_RECURSION: u32 = 250;
+const MAX_COLOUR_CALC_RECURSION: u32 = 4;
 
 fn main() {
     let mut image = Image::new(
@@ -45,6 +45,7 @@ fn main() {
 
 fn calculate_colour(r: &Ray, world: &HittableList, col_cal_depth: u32) -> Colour {
     if col_cal_depth == MAX_COLOUR_CALC_RECURSION {
+        println!("--> hit colour calc recursion limit");
         return Colour::black();
     }
 

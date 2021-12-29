@@ -28,3 +28,10 @@ Also used [snarkyboojum's video tutorial series](https://www.youtube.com/watch?v
 
 ### A simple diffuse material
 ![](example_renders/my_image.08.simple_diffuse_material.jpg)
+
+### Diffuse, metal & reflection
+- ray per pixel: 128
+- *max colour calc recursion: 512*
+- **Pentium Silver N5000, 4 Gb => ~ 20.0 secs**
+
+![](example_renders/my_image.09.diff_metal_refl.jpg)
