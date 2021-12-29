@@ -43,7 +43,7 @@ pub fn scatter(
         &Material::Dielectric { refr_idx} => {
             let reflected = reflect(&ray_in.direction, &rec.normal);
             // ??? let attenuation = Vec3::new(1.0, 1.0, 1.0);
-            *attenuation = Vec3::new(1.0, 1.0, 0.0);
+            *attenuation = Vec3::new(1.0, 1.0, 1.0);
             let mut out_normal = Vec3::default();
             let mut refracted = Vec3::default();
             let mut ni_over_nt = 0.0;
