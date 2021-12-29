@@ -22,7 +22,7 @@ const WIDTH: usize = 400;
 const RAY_PER_PIXEL_SAMPLES: u8 = 4;
 
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
-const MAX_COLOUR_CALC_RECURSION: u32 = 4;
+const MAX_COLOUR_CALC_RECURSION: u32 = 256;
 
 fn main() {
     let mut image = Image::new(
@@ -84,8 +84,9 @@ fn random_in_unit_sphere() -> Vec3 {
 
 fn render(image: &mut Image, cam: &Camera) {
     let mut list: Vec<Box<dyn Hittable>> = Vec::new();
-    list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, Material::Lambert { albedo: Vec3::new(0.8, 0.3, 0.3)})));
     list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, Material::Lambert { albedo: Vec3::new(0.8, 0.8, 0.0)})));
+    list.push(Box::new(Sphere::new(Point3::new(-0.23, 0.12, -0.5), 0.27, Material::Dielectric { refr_idx: 0.33})));
+    list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, Material::Lambert { albedo: Vec3::new(0.8, 0.3, 0.3)})));
     list.push(Box::new(Sphere::new(Point3::new(1.0, 0.0, -1.0), 0.5, Material::Metal { albedo: Vec3::new(0.8, 0.6, 0.2), fuzz: 0.27})));
     list.push(Box::new(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, Material::Metal { albedo: Vec3::new(0.8, 0.8, 0.8), fuzz: 0.0})));
     let world = HittableList::new(list);
