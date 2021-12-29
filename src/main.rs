@@ -84,11 +84,29 @@ fn random_in_unit_sphere() -> Vec3 {
 
 fn render(image: &mut Image, cam: &Camera) {
     let mut list: Vec<Box<dyn Hittable>> = Vec::new();
-    list.push(Box::new(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, Material::Lambert { albedo: Vec3::new(0.8, 0.8, 0.0)})));
-    list.push(Box::new(Sphere::new(Point3::new(-0.23, 0.12, -0.5), 0.27, Material::Dielectric { refr_idx: 0.33})));
-    list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, Material::Lambert { albedo: Vec3::new(0.8, 0.3, 0.3)})));
-    list.push(Box::new(Sphere::new(Point3::new(1.0, 0.0, -1.0), 0.5, Material::Metal { albedo: Vec3::new(0.8, 0.6, 0.2), fuzz: 0.27})));
-    list.push(Box::new(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, Material::Metal { albedo: Vec3::new(0.8, 0.8, 0.8), fuzz: 0.0})));
+    {
+        // GROUND SPHERE:
+        list.push(Box::new(Sphere::new(
+            Point3::new(0.0, -100.5, -1.0), 100.0,
+            Material::Lambert { albedo: Vec3::new(0.8, 0.8, 0.0)}
+        )));
+        // TOP RIGHT CLOSER EXTRA SPHERE:
+        list.push(Box::new(Sphere::new(Point3::new(-0.23, 0.12, -0.5), 0.27,
+            Material::Dielectric { refr_idx: 1.5}
+        )));
+        // MIDDLE SPHERE:
+        list.push(Box::new(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5,
+            Material::Lambert { albedo: Vec3::new(0.8, 0.3, 0.3)}
+        )));
+        // LEFT SPHERE:
+        list.push(Box::new(Sphere::new(Point3::new(1.0, 0.0, -1.0), 0.5,
+            Material::Metal { albedo: Vec3::new(0.8, 0.6, 0.2), fuzz: 0.27}
+        )));
+        // RIGHT SPHERE:
+        list.push(Box::new(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5,
+            Material::Metal { albedo: Vec3::new(0.8, 0.8, 0.8), fuzz: 0.0}
+        )));
+    }
     let world = HittableList::new(list);
     let mut rng = rand::thread_rng();
     let notice_divisions = match (image.height() as f64 / 16.0) as usize {
