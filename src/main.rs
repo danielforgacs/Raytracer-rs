@@ -14,14 +14,15 @@ use hittable::{HitRecord, Hittable};
 use hittable_list::HittableList;
 use sphere::Sphere;
 use camera::Camera;
+use material::Material;
 
 use rand::prelude::*;
 
 const WIDTH: usize = 400;
-const RAY_PER_PIXEL_SAMPLES: u8 = 2;
+const RAY_PER_PIXEL_SAMPLES: u8 = 8;
 
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
-const MAX_COLOUR_CALC_RECURSION: u32 = 4;
+const MAX_COLOUR_CALC_RECURSION: u32 = 16;
 
 fn main() {
     let mut image = Image::new(
@@ -36,7 +37,7 @@ fn main() {
     println!("num pixels:                     {}", image.width * image.height());
     println!("rendering...");
     render(&mut image, &camera);
-    image.gamma(0.73);
+    image.gamma(1.23);
     println!("writing image...");
     image.write();
     println!("finished.");
