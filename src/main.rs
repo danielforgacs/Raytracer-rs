@@ -29,7 +29,11 @@ fn main() {
         WIDTH,
         ASPECT_RATIO
     );
-    let camera = Camera::new(RAY_PER_PIXEL_SAMPLES);
+    let camera = Camera::new (
+        RAY_PER_PIXEL_SAMPLES,
+        0.00002,
+        ASPECT_RATIO,
+    );
 
     println!("image width x height:           {} x {}", image.width, image.height());
     println!("aspect ratio:                   {}", image.aspect_ratio);
@@ -85,6 +89,8 @@ fn random_in_unit_sphere() -> Vec3 {
 fn render(image: &mut Image, cam: &Camera) {
     let mut list: Vec<Box<dyn Hittable>> = Vec::new();
     {
+        let r = (std::f64::consts::PI / 4.0).cos();
+
         // GROUND SPHERE:
         list.push(Box::new(Sphere::new(
             Point3::new(0.0, -100.5, -1.0), 100.0,

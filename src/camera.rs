@@ -10,11 +10,14 @@ pub struct Camera {
 }
 
 impl Camera {
-    pub fn new(rpp_samples: u8) -> Self {
+    pub fn new(rpp_samples: u8, vfov: f64, aspect: f64) -> Self {
+        let theta = vfov * std::f64::consts::PI / 180.0;
+        let half_h = (theta / 2.0).tan();
+        let half_w = aspect * half_h;
         Self {
-            lower_left_corner: Point3::new(-2.0, -1.0, -1.0),
-            horizontal: Vec3::new(4.0, 0.0, 0.0),
-            vertical: Vec3::new(0.0, 2.0, 0.0),
+            lower_left_corner: Point3::new(half_w * -1.0, half_h * -1.0, -1.0),
+            horizontal: Vec3::new(half_w * 2.0, 0.0, 0.0),
+            vertical: Vec3::new(0.0, half_h * 2.0, 0.0),
             origin: Point3::new(0.0, 0.0, 0.0),
             ray_p_pixel_samples: rpp_samples,
         }
