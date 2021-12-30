@@ -22,7 +22,7 @@ const WIDTH: usize = 600;
 const RAY_PER_PIXEL_SAMPLES: u8 = 8;
 
 const ASPECT_RATIO: f64 = 2.0 / 1.0;
-const MAX_COLOUR_CALC_RECURSION: u32 = 256;
+const MAX_COLOUR_CALC_RECURSION: u32 = 32;
 
 fn main() {
     let mut image = Image::new(
@@ -45,7 +45,7 @@ fn main() {
 
 fn calculate_colour(r: &Ray, world: &HittableList, col_cal_depth: u32) -> Colour {
     if col_cal_depth == MAX_COLOUR_CALC_RECURSION {
-        println!("--> hit colour calc recursion limit");
+        // println!("--> hit colour calc recursion limit");
         return Colour::black();
     }
 
@@ -114,7 +114,7 @@ fn render(image: &mut Image, cam: &Camera) {
     }
     let world = HittableList::new(list);
     let mut rng = rand::thread_rng();
-    let notice_divisions = match (image.height() as f64 / 16.0) as usize {
+    let notice_divisions = match (image.height() as f64 / 50.0) as usize {
         0 => 1,
         x => x
     };
