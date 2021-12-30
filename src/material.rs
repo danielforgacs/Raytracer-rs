@@ -2,6 +2,7 @@ use crate::vec3::{Vec3, dot, unit_vector};
 use crate::ray::Ray;
 use crate::hittable::HitRecord;
 use crate::random_in_unit_sphere;
+use rand::prelude::*;
 
 #[derive(Debug, Clone, Copy)]
 pub enum Material {
@@ -23,6 +24,7 @@ pub fn scatter(
     attenuation: &mut Vec3,
     scattered: &mut Ray
 ) -> bool {
+    let mut rng = rand::thread_rng();
     match material {
         &Material::Lambert { albedo} => {
             let target = rec.p + rec.normal + random_in_unit_sphere();
@@ -47,6 +49,8 @@ pub fn scatter(
             let mut out_normal = Vec3::default();
             let mut refracted = Vec3::default();
             let mut ni_over_nt = 0.0;
+            let mut reflect_prob = 0.0;
+            let mut cosine = 0.0;
 
             if dot(&ray_in.direction, &rec.normal) > 0.0 {
                 out_normal = rec.normal * -1.0;
@@ -54,16 +58,27 @@ pub fn scatter(
             } else {
                 out_normal = rec.normal;
                 ni_over_nt = 1.0 / refr_idx;
+                cosine = (dot(&ray_in.direction, &rec.normal) * -0.1) / ray_in.direction.length();
             }
 
             if refract(&ray_in.direction, &out_normal, ni_over_nt, &mut refracted) {
-                *scattered = Ray::new(rec.p, refracted);
-                return true;
+                reflect_prob = schlick(cosine, refr_idx);
             } else {
-                *scattered = Ray::new(rec.p, reflected);
-                return false;
-
+                reflect_prob = 1.0;
             }
+
+            if rng.gen::<f64>() < reflect_prob {
+                *scattered = Ray::new(rec.p, reflected);
+            } else {
+                *scattered = Ray::new(rec.p, refracted);
+            }
+
+            return true
+            //     *scattered = Ray::new(rec.p, refracted);
+            //     return true;
+            // } else {
+            //     *scattered = Ray::new(rec.p, reflected);
+            //     return false;
         }
     }
     // return false;
@@ -83,4 +98,9 @@ pub fn refract(v: &Vec3, n: &Vec3, ni_over_ft: f64, refracted: &mut Vec3) -> boo
     } else {
         false
     }
+}
+
+fn schlick(cosine: f64, refr_idx: f64) -> f64 {
+    let r0 = ((1.0 - refr_idx) / (1.0 + refr_idx)).powi(2);
+    r0 + (1.0 - r0) * (1.0 - cosine).powi(5)
 }
