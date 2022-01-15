@@ -68,7 +68,7 @@ impl Image {
         let mut image_file_content = String::new();
         image_file_content.push_str("P3");
         image_file_content.push_str(&format!("\n{} {}", self.width, self.height));
-        image_file_content.push_str("\n256");
+        image_file_content.push_str("\n255");
         for y in 0..self.height {
             for x in 0..self.width {
                 let r = self.pixels[y][x].r;
