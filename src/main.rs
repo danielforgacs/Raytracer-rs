@@ -13,14 +13,16 @@ fn main() {
     let viewport_w = image.get_aspect_ratio() * viewport_h;
     let focal_length = 1.0;
 
-    let origin = vec3::Point3::new(0.0, 0.0, 0.0);
-    let horizontal = vec3::Vec3::new(viewport_w, 0.0, 0.0);
-    let vertical = vec3::Vec3::new(0.0, viewport_h, 0.0);
+    let origin = vec3::Point3::new();
+    let horizontal = vec3::Vec3::new()
+        .set_xyz(viewport_w, 0.0, 0.0);
+    let vertical = vec3::Vec3::new()
+        .set_xyz(0.0, viewport_h, 0.0);
 
     let lower_left_corner = origin
         - (horizontal / 2.0)
         - (vertical / 2.0)
-        - vec3::Vec3::new(0.0, 0.0, focal_length);
+        - vec3::Vec3::new().set_xyz(0.0, 0.0, focal_length);
 
     for y in (0..image.get_height()).rev() {
         for x in 0..image.get_width() {

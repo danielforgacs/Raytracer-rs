@@ -148,7 +148,7 @@ mod test {
             .set_width(60)
             .set_height(5)
             .set_filename(String::from("test_image_set_pixel_coordinates_work"));
-        image.set_pixel(1.0, 0.0, 0.0, 50, 2);
+        image.set_pixel(1.0, 0.0, 0.0, 50, 1);
         image.save_ppm();
     }
 

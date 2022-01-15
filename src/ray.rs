@@ -28,15 +28,15 @@ impl Ray {
 
 pub fn ray_colour(ray: &Ray) -> vec3::Colour {
     let t = hit_sphere(
-        &vec3::Point3::new(0.0, 0.0, -1.0),
+        &vec3::Point3::new().set_xyz(0.0, 0.0, -1.0),
         0.5,
         &ray,
     );
     if t > 0.0 {
         let Normal = vec3::unit_vector(
-            &(ray.at(t) - vec3::Vec3::new(0.0, 0.0, -1.0))
+            &(ray.at(t) - vec3::Vec3::new().set_xyz(0.0, 0.0, -1.0))
         );
-        return 0.5 * vec3::Colour::new(
+        return 0.5 * vec3::Colour::new().set_xyz(
             Normal.get_x() + 1.0,
             Normal.get_y() + 1.0,
             Normal.get_z() + 1.0,
@@ -45,8 +45,8 @@ pub fn ray_colour(ray: &Ray) -> vec3::Colour {
     let unit_direction = vec3::unit_vector(&ray.get_direction());
     let t = 0.5 * (unit_direction.get_y() + 1.0);
     (1.0 - t)
-        * vec3::Colour::new(1.0, 1.0, 1.0)
-        + (t * vec3::Colour::new(0.5, 0.7, 1.0))
+        * vec3::Colour::new().set_xyz(1.0, 1.0, 1.0)
+        + (t * vec3::Colour::new().set_xyz(0.5, 0.7, 1.0))
 }
 
 pub fn hit_sphere(center: &vec3::Point3, radius: f64, ray: &Ray) -> f64 {
