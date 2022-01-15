@@ -39,7 +39,7 @@ impl Image {
         self.pixels[y][x].set_rgb(r, g, b);
     }
 
-    fn set_filename(mut self, name: String) -> Self {
+    pub fn set_filename(mut self, name: String) -> Self {
         self.file_name = name;
         self
     }
