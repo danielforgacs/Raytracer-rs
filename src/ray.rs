@@ -51,7 +51,7 @@ pub fn ray_colour(ray: &Ray) -> Colour {
 
 pub fn hit_sphere(center: &Point3, radius: f64, ray: &Ray) -> f64 {
     let oc = ray.get_origin() - *center;
-    let a = dot(&ray.get_direction(), &ray.get_direction());
+    let a = ray.get_direction().length_squared();
     let b = 2.0 * dot(&oc, &ray.get_direction());
     let c = dot(&oc, &oc) - radius * radius;
     let discriminant = b * b - 4.0 * a * c;
