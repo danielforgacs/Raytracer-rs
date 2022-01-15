@@ -5,10 +5,12 @@ mod ray;
 fn main() {
     let mut image = image::Image::new()
         .set_width(400)
-        .set_height(225);
+        .set_aspect_ratio(16.0 / 9.0);
+    println!("{:<30}{}px x {}px", "Image dimensions:", image.get_width(), image.get_height());
+    println!("{:<30}{}", "apsect ratio:", image.get_aspect_ratio());
 
     let viewport_h: f64 = 2.0;
-    let viewport_w = image.aspect_ratio() * viewport_h;
+    let viewport_w = image.get_aspect_ratio() * viewport_h;
     let focal_length = 1.0;
 
     let origin = vec3::Point3::new(0.0, 0.0, 0.0);

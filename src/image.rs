@@ -13,6 +13,7 @@ pub struct Pixel {
 pub struct Image {
     width: usize,
     height: usize,
+    aspect_ratio: f64,
     pixels: PixelVec,
     file_name: String,
 }
@@ -27,6 +28,7 @@ impl Image {
             width,
             height,
             pixels,
+            aspect_ratio: 1.0,
             file_name,
         }
     }
@@ -34,6 +36,13 @@ impl Image {
     pub fn set_width(mut self, value: usize) -> Self {
         self.width = value;
         self.pixels = vec![vec![Pixel::new((0.2, 0.15, 0.1)); value]; self.height];
+        self
+    }
+
+    pub fn set_aspect_ratio(mut self, ratio: f64) -> Self {
+        self.aspect_ratio = ratio;
+        self.height = ((self.width as f64) / ratio) as usize;
+        self.pixels = vec![vec![Pixel::new((0.2, 0.15, 0.1)); self.width]; self.height];
         self
     }
 
@@ -82,7 +91,7 @@ impl Image {
             .unwrap();
     }
 
-    pub fn aspect_ratio(&self) -> f64 {
+    pub fn get_aspect_ratio(&self) -> f64 {
         self.get_width() as f64 / self.get_height() as f64
     }
 }
