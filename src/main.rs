@@ -3,10 +3,11 @@ mod vec3;
 mod ray;
 
 fn main() {
-    let mut image = image::Image::new(400, 200, None);
+    let mut image = image::Image::new(400, 225, None);
 
     let viewport_h = 2.0;
     let viewport_w = image.aspect_ratio() * viewport_h;
+    assert_eq!(image.aspect_ratio(), 16.0 / 9.0);
     let focal_length = 1.0;
 
     let origin = vec3::Point3::new(0.0, 0.0, 0.0);
@@ -31,8 +32,8 @@ fn main() {
                 colour.get_x(),
                 colour.get_y(),
                 colour.get_z(),
-                y,
                 x,
+                y,
             );
 
         }

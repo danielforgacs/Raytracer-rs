@@ -35,7 +35,7 @@ impl Image {
     }
 
     pub fn set_pixel(&mut self, r: PxChanType, g: PxChanType, b: PxChanType, x: usize, y: usize) {
-        self.pixels[x][y].set_rgb(r, g, b);
+        self.pixels[y][x].set_rgb(r, g, b);
     }
 
     pub fn save_ppm(&self) {
@@ -88,13 +88,13 @@ mod test {
 
     #[test]
     fn gen_test_image() {
-        let mut image = Image::new(5, 3, None);
+        let mut image = Image::new(128, 128, None);
         for y in 0..image.get_height() {
             for x in 0..image.get_width() {
                 let r = x as f32 / (image.get_width() - 1) as f32;
                 let b = y as f32 / (image.get_height() - 1) as f32;
                 println!("{:<15} {}", r, b);
-                image.set_pixel(r, 0.0, b, y, x);
+                image.set_pixel(r, 0.0, b, x, y);
             }
         }
         image.save_ppm();
