@@ -99,4 +99,11 @@ mod test {
         }
         image.save_ppm();
     }
+
+    #[test]
+    fn image_set_pixel_coordinates_work() {
+        let mut image = Image::new(60, 5, None);
+        image.set_pixel(1.0, 0.0, 0.0, 50, 2);
+        image.save_ppm();
+    }
 }
