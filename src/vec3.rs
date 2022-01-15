@@ -38,6 +38,12 @@ impl Vec3 {
     }
 }
 
+pub fn dot(vec_l: &Vec3, vec_r: &Vec3) -> f64 {
+    vec_l.get_x() * vec_r.get_x()
+    + vec_l.get_y() * vec_r.get_y()
+    + vec_l.get_z() * vec_r.get_z()
+}
+
 impl ops::Mul<Vec3> for f64 {
     type Output = Vec3;
 
@@ -141,6 +147,15 @@ mod test {
         assert_eq!(
             Colour::new(1.1, 2.2, 3.3) - Colour::new(0.5, 0.7, 1.0),
             Colour::new(1.1 - 0.5, 2.2 - 0.7, 3.3 - 1.0),
+        );
+    }
+
+    #[test]
+    fn dot_product() {
+        let vec1 = Vec3::new(0.1, 0.2, 0.3);
+        let vec2 = Vec3::new(1.1, 2.2, 3.3);
+        assert_eq!(dot(&vec1, &vec2),
+            0.1 * 1.1 + 0.2 * 2.2 + 0.3 * 3.3
         );
     }
 }
