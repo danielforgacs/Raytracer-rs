@@ -52,12 +52,12 @@ pub fn ray_colour(ray: &Ray) -> Colour {
 pub fn hit_sphere(center: &Point3, radius: f64, ray: &Ray) -> f64 {
     let oc = ray.get_origin() - *center;
     let a = ray.get_direction().length_squared();
-    let b = 2.0 * dot(&oc, &ray.get_direction());
-    let c = dot(&oc, &oc) - radius * radius;
-    let discriminant = b * b - 4.0 * a * c;
+    let half_b = dot(&oc, &ray.get_direction());
+    let c = oc.length_squared() - radius.powi(2);
+    let discriminant = half_b.powi(2) - a * c;
     if discriminant < 0.0 {
         return -1.0
     } else {
-        return (-b - discriminant.sqrt()) / (2.0 * a);
+        return (-half_b - discriminant.sqrt()) / a;
     }
 }
