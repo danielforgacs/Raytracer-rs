@@ -20,7 +20,7 @@ fn main() {
         - (vertical / 2.0)
         - vec3::Vec3::new(0.0, 0.0, focal_length);
 
-    for y in 0..image.get_height() {
+    for y in (0..image.get_height()).rev() {
         for x in 0..image.get_width() {
             let u = x as f64 / (image.get_width() - 1) as f64;
             let v = x as f64 / (image.get_height() - 1) as f64;
