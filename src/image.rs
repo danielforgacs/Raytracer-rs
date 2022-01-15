@@ -71,12 +71,7 @@ impl Image {
         image_file_content.push_str("\n255");
         for y in 0..self.height {
             for x in 0..self.width {
-                let r = self.pixels[y][x].r;
-                let r = (r * 255.9) as u8;
-                let g = self.pixels[y][x].g;
-                let g = (g * 255.9) as u8;
-                let b = self.pixels[y][x].b;
-                let b = (b * 255.9) as u8;
+                let (r, g, b) = self.pixels[y][x].as_8bit();
                 image_file_content.push_str(&format!("\n{} {} {}", r, g, b));
             }
         }
@@ -105,6 +100,14 @@ impl Pixel {
         self.r = r;
         self.g = g;
         self.b = b;
+    }
+
+    fn as_8bit(&self) -> (u8, u8, u8) {
+        (
+            (self.r * 255.9) as u8,
+            (self.g * 255.9) as u8,
+            (self.b * 255.9) as u8,
+        )
     }
 }
 
