@@ -1,6 +1,7 @@
 type CoordType = f32;
+pub type Point3 = Vec3;
 
-struct Vec3 {
+pub struct Vec3 {
     x: CoordType,
     y: CoordType,
     z: CoordType,
