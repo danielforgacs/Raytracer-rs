@@ -1,24 +1,24 @@
 use std::io::Write;
 use std::fs::File;
 
-type PixelVector = Vec<Vec<Pixel>>;
-type PixelChannel = f32;
+type PixelVec = Vec<Vec<Pixel>>;
+type PxChanType = f32;
 
 #[derive(Clone, Copy)]
 pub struct Pixel {
-    r: PixelChannel,
-    g: PixelChannel,
-    b: PixelChannel,
+    r: PxChanType,
+    g: PxChanType,
+    b: PxChanType,
 }
 
 pub struct Image {
     width: usize,
     height: usize,
-    pixels: PixelVector,
+    pixels: PixelVec,
 }
 
 impl Image {
-    pub fn new(width: usize, height: usize, pixels: Option<PixelVector>) -> Self {
+    pub fn new(width: usize, height: usize, pixels: Option<PixelVec>) -> Self {
         let pixels = match pixels {
             Some(pixels) => pixels,
             None => vec![vec![Pixel::new((0.1, 0.2, 0.3)); width]; height]
@@ -34,7 +34,7 @@ impl Image {
         self.height
     }
 
-    pub fn set_pixel(&mut self, r: PixelChannel, g: PixelChannel, b: PixelChannel, x: usize, y: usize) {
+    pub fn set_pixel(&mut self, r: PxChanType, g: PxChanType, b: PxChanType, x: usize, y: usize) {
         self.pixels[x][y].set_rgb(r, g, b);
     }
 
@@ -71,9 +71,29 @@ impl Pixel {
         }
     }
 
-    pub fn set_rgb(&mut self, r: PixelChannel, g: PixelChannel, b: PixelChannel) {
+    pub fn set_rgb(&mut self, r: PxChanType, g: PxChanType, b: PxChanType) {
         self.r = r;
         self.g = g;
         self.b = b;
+    }
+}
+
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn gen_test_image() {
+        let mut image = Image::new(5, 3, None);
+        for y in 0..image.get_height() {
+            for x in 0..image.get_width() {
+                let r = x as f32 / (image.get_width() - 1) as f32;
+                let b = y as f32 / (image.get_height() - 1) as f32;
+                println!("{:<15} {}", r, b);
+                image.set_pixel(r, 0.0, b, y, x);
+            }
+        }
+        image.save_ppm();
     }
 }
