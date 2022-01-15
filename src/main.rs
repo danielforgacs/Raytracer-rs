@@ -3,8 +3,9 @@ mod vec3;
 mod ray;
 
 fn main() {
-    // let mut image = image::Image::new(400, 225, None);
-    let mut image = image::Image::new();
+    let mut image = image::Image::new()
+        .set_width(400)
+        .set_height(225);
 
     let viewport_h = 2.0;
     let viewport_w = image.aspect_ratio() * viewport_h;

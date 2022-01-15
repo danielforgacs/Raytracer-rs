@@ -34,11 +34,13 @@ impl Image {
 
     pub fn set_width(mut self, value: usize) -> Self {
         self.width = value;
+        self.pixels = vec![vec![Pixel::new((0.2, 0.15, 0.1)); value]; self.height];
         self
     }
 
     pub fn set_height(mut self, value: usize) -> Self {
         self.height = value;
+        self.pixels = vec![vec![Pixel::new((0.2, 0.15, 0.1)); self.width]; value];
         self
     }
 
