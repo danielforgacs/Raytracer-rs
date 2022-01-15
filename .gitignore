@@ -3,7 +3,7 @@
 # Added by cargo
 
 /target
-my_image.ppm
+*.ppm
 
 
 # Added by cargo
