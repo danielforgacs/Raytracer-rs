@@ -45,7 +45,7 @@ pub fn ray_colour(ray: &Ray) -> Colour {
     let unit_direction = unit_vector(&ray.get_direction());
     let t = 0.5 * (unit_direction.get_y() + 1.0);
     (1.0 - t)
-        * Colour::new().set_xyz(1.0, 1.0, 1.0)
+        * Colour::new().white()
         + (t * Colour::new().set_xyz(0.5, 0.7, 1.0))
 }
 

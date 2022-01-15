@@ -26,6 +26,13 @@ impl Vec3 {
         self
     }
 
+    pub fn white(mut self) -> Self {
+        self.x = 1.0;
+        self.y = 1.0;
+        self.z = 1.0;
+        self
+    }
+
     pub fn get_x(&self) -> f64 {
         self.x
     }
