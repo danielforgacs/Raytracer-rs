@@ -69,7 +69,7 @@ impl Image {
         image_file_content.push_str("P3");
         image_file_content.push_str(&format!("\n{} {}", self.width, self.height));
         image_file_content.push_str("\n255");
-        for y in 0..self.height {
+        for y in (0..self.height).rev() {
             for x in 0..self.width {
                 let (r, g, b) = self.pixels[y][x].as_8bit();
                 image_file_content.push_str(&format!("\n{} {} {}", r, g, b));
@@ -122,7 +122,7 @@ mod test {
             .set_width(128)
             .set_height(128)
             .set_filename(String::from("test_gen_test_image"));
-        for y in 0..image.get_height() {
+        for y in (0..image.get_height()).rev() {
             for x in 0..image.get_width() {
                 let r = x as f64 / (image.get_width() - 1) as f64;
                 let g = y as f64 / (image.get_height() - 1) as f64;
