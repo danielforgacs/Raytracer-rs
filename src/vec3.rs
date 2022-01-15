@@ -1,45 +1,44 @@
 use std::ops;
 
-type CoordType = f32;
 pub type Point3 = Vec3;
 pub type Colour = Vec3;
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Vec3 {
-    x: CoordType,
-    y: CoordType,
-    z: CoordType,
+    x: f64,
+    y: f64,
+    z: f64,
 }
 
 impl Vec3 {
-    pub fn new(x: CoordType, y: CoordType, z: CoordType) -> Self {
+    pub fn new(x: f64, y: f64, z: f64) -> Self {
         Self { x, y, z }
     }
 
-    pub fn get_x(&self) -> CoordType {
+    pub fn get_x(&self) -> f64 {
         self.x
     }
 
-    pub fn get_y(&self) -> CoordType {
+    pub fn get_y(&self) -> f64 {
         self.y
     }
 
-    pub fn get_z(&self) -> CoordType {
+    pub fn get_z(&self) -> f64 {
         self.z
     }
 
-    fn length(&self) -> CoordType {
+    fn length(&self) -> f64 {
         self.length_squared().sqrt()
     }
 
-    fn length_squared(&self) -> CoordType {
+    fn length_squared(&self) -> f64 {
         self.get_x().powi(2)
         + self.get_y().powi(2)
         + self.get_z().powi(2)
     }
 }
 
-impl ops::Mul<Vec3> for CoordType {
+impl ops::Mul<Vec3> for f64 {
     type Output = Vec3;
 
     fn mul(self, rhs: Self::Output) -> Self::Output {
@@ -51,10 +50,10 @@ impl ops::Mul<Vec3> for CoordType {
     }
 }
 
-impl ops::Div<CoordType> for Vec3 {
+impl ops::Div<f64> for Vec3 {
     type Output = Vec3;
 
-    fn div(self, rhs: CoordType) -> Self::Output {
+    fn div(self, rhs: f64) -> Self::Output {
         Self::Output::new(
             self.get_x() / rhs,
             self.get_y() / rhs,
@@ -108,7 +107,7 @@ mod test {
     #[test]
     fn scalar_mult_vec() {
         let vector = Vec3::new(1.1, 2.2, 3.3);
-        let scalar: CoordType = 2.2;
+        let scalar: f64 = 2.2;
         let expected = Vec3::new(
             1.1 * scalar,
             2.2 * scalar,
@@ -120,7 +119,7 @@ mod test {
     #[test]
     fn vector_div_scalar() {
         let vector = Vec3::new(4.4, 6.6, 8.8);
-        let scalar: CoordType = 2.2;
+        let scalar: f64 = 2.2;
         let expected = Vec3::new(
             4.4 / scalar,
             6.6 / scalar,

@@ -2,13 +2,12 @@ use std::io::Write;
 use std::fs::File;
 
 type PixelVec = Vec<Vec<Pixel>>;
-type PxChanType = f32;
 
 #[derive(Clone, Copy)]
 pub struct Pixel {
-    r: PxChanType,
-    g: PxChanType,
-    b: PxChanType,
+    r: f64,
+    g: f64,
+    b: f64,
 }
 
 pub struct Image {
@@ -52,7 +51,7 @@ impl Image {
         self.height
     }
 
-    pub fn set_pixel(&mut self, r: PxChanType, g: PxChanType, b: PxChanType, x: usize, y: usize) {
+    pub fn set_pixel(&mut self, r: f64, g: f64, b: f64, x: usize, y: usize) {
         self.pixels[y][x].set_rgb(r, g, b);
     }
 
@@ -88,13 +87,13 @@ impl Image {
             .unwrap();
     }
 
-    pub fn aspect_ratio(&self) -> f32 {
-        self.get_width() as f32 / self.get_height() as f32
+    pub fn aspect_ratio(&self) -> f64 {
+        self.get_width() as f64 / self.get_height() as f64
     }
 }
 
 impl Pixel {
-    fn new(rgb: (f32, f32, f32)) -> Self {
+    fn new(rgb: (f64, f64, f64)) -> Self {
         Self {
             r: rgb.0,
             g: rgb.1,
@@ -102,7 +101,7 @@ impl Pixel {
         }
     }
 
-    pub fn set_rgb(&mut self, r: PxChanType, g: PxChanType, b: PxChanType) {
+    pub fn set_rgb(&mut self, r: f64, g: f64, b: f64) {
         self.r = r;
         self.g = g;
         self.b = b;
@@ -121,8 +120,8 @@ mod test {
             .set_filename(String::from("test_gen_test_image"));
         for y in 0..image.get_height() {
             for x in 0..image.get_width() {
-                let r = x as f32 / (image.get_width() - 1) as f32;
-                let g = y as f32 / (image.get_height() - 1) as f32;
+                let r = x as f64 / (image.get_width() - 1) as f64;
+                let g = y as f64 / (image.get_height() - 1) as f64;
                 println!("{:<15} {}", r, g);
                 image.set_pixel(r, g, 0.25, x, y);
             }
