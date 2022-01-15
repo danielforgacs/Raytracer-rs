@@ -104,9 +104,9 @@ mod test {
         for y in 0..image.get_height() {
             for x in 0..image.get_width() {
                 let r = x as f32 / (image.get_width() - 1) as f32;
-                let b = y as f32 / (image.get_height() - 1) as f32;
-                println!("{:<15} {}", r, b);
-                image.set_pixel(r, 0.0, b, x, y);
+                let g = y as f32 / (image.get_height() - 1) as f32;
+                println!("{:<15} {}", r, g);
+                image.set_pixel(r, g, 0.25, x, y);
             }
         }
         image.save_ppm();
