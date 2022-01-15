@@ -58,7 +58,10 @@ impl Image {
             .unwrap()
             .write_all(image_file_content.as_bytes())
             .unwrap();
+    }
 
+    pub fn aspect_ratio(&self) -> f32 {
+        self.get_width() as f32 / self.get_height() as f32
     }
 }
 
