@@ -12,4 +12,12 @@ impl Ray {
             direction,
         }
     }
+
+    fn get_direction(&self) -> vec3::Vec3 {
+        self.direction
+    }
 }
+
+// fn ray_colour(ray: &Ray) -> vec3::Colour {
+//     let unit_direction = vec3::unit_vector(&ray.get_direction());
+// }

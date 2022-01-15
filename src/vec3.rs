@@ -4,7 +4,7 @@ type CoordType = f32;
 pub type Point3 = Vec3;
 pub type Colour = Vec3;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Vec3 {
     x: CoordType,
     y: CoordType,
@@ -36,20 +36,35 @@ impl Vec3 {
         self.get_x().powi(2)
         + self.get_y().powi(2)
         + self.get_z().powi(2)
-
     }
 }
 
-impl ops::Mul<Vec3> for f32 {
+impl ops::Mul<Vec3> for CoordType {
     type Output = Vec3;
 
-    fn mul(self, rhs: Vec3) -> Self::Output {
-        Vec3::new(
+    fn mul(self, rhs: Self::Output) -> Self::Output {
+        Self::Output::new(
             rhs.get_x() * self,
             rhs.get_y() * self,
             rhs.get_z() * self,
         )
     }
+}
+
+impl ops::Div<CoordType> for Vec3 {
+    type Output = Vec3;
+
+    fn div(self, rhs: CoordType) -> Self::Output {
+        Self::Output::new(
+            self.get_x() / rhs,
+            self.get_y() / rhs,
+            self.get_z() / rhs,
+        )
+    }
+}
+
+pub fn unit_vector(vec: &Vec3) -> Vec3 {
+    *vec / vec.length()
 }
 
 #[cfg(test)]
@@ -69,10 +84,22 @@ mod test {
         let vector = Vec3::new(1.1, 2.2, 3.3);
         let scalar: CoordType = 2.2;
         let expected = Vec3::new(
-            1.1 * 2.2,
-            2.2 * 2.2,
-            3.3 * 2.2,
+            1.1 * scalar,
+            2.2 * scalar,
+            3.3 * scalar,
         );
         assert_eq!(scalar * vector, expected);
+    }
+
+    #[test]
+    fn vector_div_scalar() {
+        let vector = Vec3::new(4.4, 6.6, 8.8);
+        let scalar: CoordType = 2.2;
+        let expected = Vec3::new(
+            4.4 / scalar,
+            6.6 / scalar,
+            8.8 / scalar,
+        );
+        assert_eq!(vector / scalar, expected);
     }
 }
