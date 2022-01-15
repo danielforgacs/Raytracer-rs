@@ -12,7 +12,7 @@ pub struct Vec3 {
 }
 
 impl Vec3 {
-    fn new(x: CoordType, y: CoordType, z: CoordType) -> Self {
+    pub fn new(x: CoordType, y: CoordType, z: CoordType) -> Self {
         Self { x, y, z }
     }
 
