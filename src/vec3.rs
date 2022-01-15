@@ -1,5 +1,6 @@
 type CoordType = f32;
 pub type Point3 = Vec3;
+pub type Colour = Vec3;
 
 pub struct Vec3 {
     x: CoordType,
@@ -12,18 +13,47 @@ impl Vec3 {
         Self { x, y, z }
     }
 
-    fn get_x(&self) -> CoordType {
+    pub fn get_x(&self) -> CoordType {
         self.x
     }
 
-    fn get_y(&self) -> CoordType {
+    pub fn get_y(&self) -> CoordType {
         self.y
     }
 
-    fn get_z(&self) -> CoordType {
+    pub fn get_z(&self) -> CoordType {
         self.z
     }
+
+    fn length(&self) -> CoordType {
+        self.length_squared().sqrt()
+    }
+
+    fn length_squared(&self) -> CoordType {
+        self.get_x().powi(2)
+        + self.get_y().powi(2)
+        + self.get_z().powi(2)
+
+    }
 }
+
+// pub fn unit_vector(vec: Vec3) -> Vec3 {
+//     vec / vec.length()
+// }
+
+// trait std::ops::Mul {
+//     fn mul(&self, rhs: Vec3);
+// }
+
+// impl std::ops::Mul for CoordType {
+//     fn mul(&self, rhs: Vec3) -> Vec3 {
+//         Vec3::new(
+//             rhs.get_x() * self,
+//             rhs.get_y() * self,
+//             rhs.get_z() * self,
+//         )
+//     }
+// }
 
 #[cfg(test)]
 mod test {
