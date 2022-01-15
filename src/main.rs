@@ -13,7 +13,10 @@ fn main() {
     let horizontal = vec3::Vec3::new(viewport_w, 0.0, 0.0);
     let vertical = vec3::Vec3::new(0.0, viewport_h, 0.0);
 
-    let lower_left_corner = origin - (horizontal / 2.0) - (vertical / 2.0) - vec3::Vec3::new(0.0, 0.0, focal_length);
+    let lower_left_corner = origin
+        - (horizontal / 2.0)
+        - (vertical / 2.0)
+        - vec3::Vec3::new(0.0, 0.0, focal_length);
 
     for y in 0..image.get_height() {
         for x in 0..image.get_width() {
