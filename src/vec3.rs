@@ -37,24 +37,6 @@ impl Vec3 {
     }
 }
 
-// pub fn unit_vector(vec: Vec3) -> Vec3 {
-//     vec / vec.length()
-// }
-
-// trait std::ops::Mul {
-//     fn mul(&self, rhs: Vec3);
-// }
-
-// impl std::ops::Mul for CoordType {
-//     fn mul(&self, rhs: Vec3) -> Vec3 {
-//         Vec3::new(
-//             rhs.get_x() * self,
-//             rhs.get_y() * self,
-//             rhs.get_z() * self,
-//         )
-//     }
-// }
-
 #[cfg(test)]
 mod test {
     use super::*;
