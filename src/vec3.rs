@@ -1,7 +1,10 @@
+use std::ops;
+
 type CoordType = f32;
 pub type Point3 = Vec3;
 pub type Colour = Vec3;
 
+#[derive(Debug, PartialEq)]
 pub struct Vec3 {
     x: CoordType,
     y: CoordType,
@@ -37,6 +40,18 @@ impl Vec3 {
     }
 }
 
+impl ops::Mul<Vec3> for f32 {
+    type Output = Vec3;
+
+    fn mul(self, rhs: Vec3) -> Self::Output {
+        Vec3::new(
+            rhs.get_x() * self,
+            rhs.get_y() * self,
+            rhs.get_z() * self,
+        )
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -47,5 +62,17 @@ mod test {
         assert_eq!(vec.get_x(), 1.0);
         assert_eq!(vec.get_y(), 2.0);
         assert_eq!(vec.get_z(), 3.0);
+    }
+
+    #[test]
+    fn scalar_mult_vec() {
+        let vector = Vec3::new(1.1, 2.2, 3.3);
+        let scalar: CoordType = 2.2;
+        let expected = Vec3::new(
+            1.1 * 2.2,
+            2.2 * 2.2,
+            3.3 * 2.2,
+        );
+        assert_eq!(scalar * vector, expected);
     }
 }
