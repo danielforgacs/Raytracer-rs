@@ -2,6 +2,8 @@ mod image;
 mod vec3;
 mod ray;
 
+use vec3::{Point3, Vec3};
+
 fn main() {
     let mut image = image::Image::new()
         .set_width(400)
@@ -13,16 +15,16 @@ fn main() {
     let viewport_w = image.get_aspect_ratio() * viewport_h;
     let focal_length = 1.0;
 
-    let origin = vec3::Point3::new();
-    let horizontal = vec3::Vec3::new()
+    let origin = Point3::new();
+    let horizontal = Vec3::new()
         .set_xyz(viewport_w, 0.0, 0.0);
-    let vertical = vec3::Vec3::new()
+    let vertical = Vec3::new()
         .set_xyz(0.0, viewport_h, 0.0);
 
     let lower_left_corner = origin
         - (horizontal / 2.0)
         - (vertical / 2.0)
-        - vec3::Vec3::new().set_xyz(0.0, 0.0, focal_length);
+        - Vec3::new().set_xyz(0.0, 0.0, focal_length);
 
     for y in (0..image.get_height()).rev() {
         for x in 0..image.get_width() {
