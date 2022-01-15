@@ -23,7 +23,7 @@ fn main() {
     for y in (0..image.get_height()).rev() {
         for x in 0..image.get_width() {
             let u = x as f64 / (image.get_width() - 1) as f64;
-            let v = x as f64 / (image.get_height() - 1) as f64;
+            let v = y as f64 / (image.get_height() - 1) as f64;
             let ray = ray::Ray::new(
                 origin,
                 lower_left_corner + (u * horizontal) + (v * vertical) - origin,
