@@ -115,8 +115,9 @@ mod test {
 
     #[test]
     fn gen_test_image() {
-        // let mut image = Image::new(128, 128, None)
         let mut image = Image::new()
+            .set_width(128)
+            .set_height(128)
             .set_filename(String::from("test_gen_test_image"));
         for y in 0..image.get_height() {
             for x in 0..image.get_width() {
@@ -131,8 +132,9 @@ mod test {
 
     #[test]
     fn image_set_pixel_coordinates_work() {
-        // let mut image = Image::new(60, 5, None)
         let mut image = Image::new()
+            .set_width(60)
+            .set_height(5)
             .set_filename(String::from("test_image_set_pixel_coordinates_work"));
         image.set_pixel(1.0, 0.0, 0.0, 50, 2);
         image.save_ppm();
