@@ -76,6 +76,19 @@ impl ops::Add<Vec3> for Vec3 {
 
 }
 
+impl ops::Sub<Vec3> for Vec3 {
+    type Output = Vec3;
+
+    fn sub(self, rhs: Vec3) -> Self::Output {
+        Self::Output::new(
+            self.get_x() - rhs.get_x(),
+            self.get_y() - rhs.get_y(),
+            self.get_z() - rhs.get_z(),
+        )
+    }
+
+}
+
 pub fn unit_vector(vec: &Vec3) -> Vec3 {
     *vec / vec.length()
 }
@@ -121,6 +134,14 @@ mod test {
         assert_eq!(
             Colour::new(1.1, 2.2, 3.3) + Colour::new(0.5, 0.7, 1.0),
             Colour::new(1.1 + 0.5, 2.2 + 0.7, 3.3 + 1.0),
+        );
+    }
+
+    #[test]
+    fn vectod_sub_vector() {
+        assert_eq!(
+            Colour::new(1.1, 2.2, 3.3) - Colour::new(0.5, 0.7, 1.0),
+            Colour::new(1.1 - 0.5, 2.2 - 0.7, 3.3 - 1.0),
         );
     }
 }
