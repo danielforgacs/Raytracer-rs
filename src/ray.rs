@@ -17,7 +17,7 @@ impl Ray {
         self.origin
     }
 
-    fn get_direction(&self) -> Vec3 {
+    pub fn get_direction(&self) -> Vec3 {
         self.direction
     }
 
