@@ -2,6 +2,7 @@ mod image;
 mod vec3;
 mod ray;
 mod hittable;
+mod sphere;
 
 use vec3::{Point3, Vec3};
 

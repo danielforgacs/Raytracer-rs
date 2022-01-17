@@ -1,14 +1,14 @@
 use crate::vec3::{Point3, Vec3, dot};
 use crate::ray::{Ray};
 
-struct HitRecord {
-    p: Point3,
-    normal: Vec3,
-    t: f64,
+pub struct HitRecord {
+    pub p: Point3,
+    pub normal: Vec3,
+    pub t: f64,
 }
 
 impl HitRecord {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             p: Point3::new(),
             normal: Vec3::new(),

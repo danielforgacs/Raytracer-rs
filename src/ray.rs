@@ -13,7 +13,7 @@ impl Ray {
         }
     }
 
-    fn get_origin(&self) -> Vec3 {
+    pub fn get_origin(&self) -> Vec3 {
         self.origin
     }
 
@@ -21,7 +21,7 @@ impl Ray {
         self.direction
     }
 
-    fn at(&self, t: f64) -> Point3 {
+    pub fn at(&self, t: f64) -> Point3 {
         self.origin + t * self.get_direction()
     }
 }
