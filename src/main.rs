@@ -1,7 +1,7 @@
 mod image;
 mod vec3;
 mod ray;
-mod hitrecord;
+mod hittable;
 
 use vec3::{Point3, Vec3};
 
